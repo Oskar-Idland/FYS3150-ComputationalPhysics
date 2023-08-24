@@ -7,7 +7,7 @@
 using namespace std;
 
 
-int main(){
+int problem2(){
     // Start measuring time
     auto t1 = std::chrono::high_resolution_clock::now();
 
