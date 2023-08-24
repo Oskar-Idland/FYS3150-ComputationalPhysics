@@ -1,10 +1,10 @@
 all: compile link run
 
 compile:
-  g++ --std++17 -c main.cpp
+  g++ --std=c++17 -c $(wildcard *.cpp)
 
 link:
-  g++ --std++17 -o main.out main.o
+  g++ --std=c++17 -o main.out $(wildcard *.o)
 
 run:
   ./main.out
