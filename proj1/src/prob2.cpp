@@ -38,8 +38,6 @@ int main() {
 
     npy::SaveArrayAsNumpy(path1, fortran_order, shape.size(), shape.data(), outputs.data());
     npy::SaveArrayAsNumpy(path2, fortran_order, shape.size(), shape.data(), inputs.data());
-
-
     return 0;
 }
 
