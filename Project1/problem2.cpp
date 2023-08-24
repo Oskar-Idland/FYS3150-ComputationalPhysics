@@ -6,30 +6,23 @@
 #include "problem2.h"
 
 using namespace std;
+using namespace arma;
 
+
+vec f(vec x) {
+    return 1 - (1-exp(-10))*x - exp(-10*x);
+}
 
 void problem2(){
-    // Start measuring time
-    auto t1 = std::chrono::high_resolution_clock::now();
+    vec x {linspace<vec>(0, 1, 100)};
 
-    arma::vec x {arma::linspace<arma::vec>(0, 1, 100)};
+    vec u {f(x)};
 
-    arma::vec u {1 - (1-exp(-10))*x - exp(-10*x)};
-
-    std::string filename = "x_u.txt";
-    std::ofstream ofile;
+    string filename = "x_u.txt";
+    ofstream ofile;
     ofile.open(filename);
-    ofile  << x << endl;
-    ofile  << u << endl;
+    for (size_t i = 0; i < x.size(); i++) {
+        ofile << x[i] << " " << u[i] << endl;
+    }
     ofile.close();
-
-    // Stop measuring time
-    auto t2 = std::chrono::high_resolution_clock::now();
-
-    // Calculate the elapsed time
-    // We use chrono::duration<double>::count(), which by default returns duration in seconds
-    double duration_seconds = std::chrono::duration<double>(t2 - t1).count();
-
-    // Print the elapsed time
-    cout << duration_seconds << " s" << endl;
 }
