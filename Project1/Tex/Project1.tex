@@ -154,27 +154,83 @@ After creating a program that defines a vector of $x$-values between 1 and 100 a
 
 
 \section*{Problem 3}
-Our aim is to derive a discretized version of the Poisson equation which lets us calculate an approximate value $v$ of the exact value $u$. To do this we must calculate the change in the change in $v$ per change in $x$ to calculate the change in $v$. In other words, the first step is to write
-
-\begin{lstlisting}[language=c++]
-arma::vec x {arma::linspace <arma::vec>(0, 1, 100)};
-arma::vec v {0};
-
-double dx = x.at(1) - x.at(0);      // difference in x between data points
-
-double ddvddx {- 100*exp(- 10*x.at(0))};      // double derivative of v(x)
-double dvdx {ddvddx*dx};                      // derivative of v(x)
-
-for (int i = 0, i < 100, ++i){
-    ddvddx = - 100*exp(- 10*x.at(i));
-    dvdx += ddvddx*dx;
-    v.at(i+1) = v.at(i) + dvdx*dx;
-}
-    
-\end{lstlisting}
+Our aim is to derive a discretized version of the Poisson equation which lets us calculate approximates values $v$ of the exact values $u$. To create this program we need to discretize the double derivative, which we can do by recalling its definition:
+\begin{equation}
+    \frac{\text{d}^2u}{\text{d}u^2} = \lim_{\text{d}x\to 0}\frac{-u(x -\text{d}x) + 2u(x) - u(x + \text{d}x)}{\text{d}x^2} 
+\end{equation}
+If we let the infinitesimal value $\text{d}x$ rather become a finite, small value $\Delta x$, we'll still be able to calculate the double derivative with good precision, as long as we don't let this value grow too large. Since this is an approximation, a discretized version of \eqref{poisson}, we will use $v(x)$ instead of $u(x)$ in the following procedures to make it clear that this is not an exact solution. The resulting equation becomes
+\begin{equation}
+    \frac{-v(x -\Delta x) + 2v(x) - v(x + \Delta x) }{\Delta x^2} = -100e^{-10x} \label{discretized poisson}
+\end{equation}
+Let's denote the $i^\text{th}$ $x$-value in out set of data points with $x_i$, so that the corresponding $v$-value will be denoted with $v_i$. This implies that at the boundaries we have $x_0 = 0$, $v_0 = 0$, and $x_{N-1} = 1$, $v_{N-1} = 0$, where $N$ are the number of data points. Thus, the final algorithm is
+\begin{equation}
+    \frac{-v_{i-1} + 2v_i - v_{i+1}}{h^2} = f_i \label{discretized poisson}
+\end{equation}
+where $h = \Delta x$ is defined as
+\begin{equation}
+    h = \frac{x_N - x_0}{N-1}
+\end{equation}
+and we've rewritten the forcing term to include the minus sign that was originally on the left hand side of the equation, meaning that
+\begin{equation}
+    f_i = f(x_i) = -100e^{-10x_i}
+\end{equation}
 
 
 \section*{Problem 4}
+Let us now multiply $h^2$ with both sides of \eqref{discretized poisson}, consequently rewriting the equation:
+\begin{equation}
+    -v_{i-1} + 2v_i - v_{i+1} = g_i, \hspace{15pt} g_i = h^2f_i \label{g_i define}
+\end{equation}
+Furthermore, we may define the vectors $\vec{v}$ and $\vec{g}$ such that
+\begin{equation}
+    \vec{v} = \begin{bmatrix}
+        v_0 \\
+        v_1 \\
+        \vdots \\
+        v_{N-1}
+    \end{bmatrix}, \hspace{15pt} \vec{g} = \begin{bmatrix}
+        g_0 \\
+        g_1 \\
+        \vdots \\
+        g_{N-1}
+    \end{bmatrix}
+\end{equation}
+
+Using our knowledge of linear algebra, we may now define the matrix
+\begin{equation}
+    \textbf{A} = \begin{bmatrix}
+        2 & -1 & 0 & \ldots & 0 \\
+        -1 & 2 & -1 & \ldots & \vdots \\
+        0 & -1 & 2 & \ldots & \vdots \\
+        \vdots&\vdots&\vdots&\ddots & \vdots \\
+        0 & \ldots&\ldots & \ldots & 2
+    \end{bmatrix}
+\end{equation}
+which multiplied with $\vec{v}$ gives us
+\begin{equation}
+    \textbf{A}\vec{v} = \begin{bmatrix}
+        2 & -1 & \ldots & 0 \\
+        -1 & 2 & \ldots & \vdots \\
+        \vdots&\vdots&\ddots&\vdots \\
+        0 & \ldots & \ldots & 2
+    \end{bmatrix} \begin{bmatrix}
+        v_0 \\
+        v_1 \\
+        \vdots \\
+        v_{N-1}
+    \end{bmatrix} = \begin{bmatrix}
+        2v_0 - v_1 \\
+        -v_0 + 2v_1 -v_2 \\
+        \vdots\\
+        -v_{N-2}+2v_{N-1}
+    \end{bmatrix}
+\end{equation}
+
+We immediately see from \eqref{g_i define} that this gives us the vector $\vec{g}$ containing the $g_i$-values with the same indexes as the corresponding $v_i$-values from $\vec{v}$. Thus, we can indeed rewrite the original discretized equation as the matrix equation
+\begin{equation}
+    \textbf{A}\vec{v} = \vec{g}
+\end{equation}
+where $\textbf{A}$ is the tridiagonal matrix with subdiagonal, main diagonal and superdiagonal specified by the signature $(-1, 2, -1)$, just like we wanted to show.
 
 
 \section*{Problem 5}
