@@ -9,5 +9,3 @@ link:
 run:
 	./main
 
-run:
-	./main
