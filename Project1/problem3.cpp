@@ -4,28 +4,35 @@
 #include <string>
 #include <fstream>
 #include <chrono>
-#include "problem2.h"
+#include "problem3.h"
 
 using namespace std;
 
-double u (double x){
-    return 1 - (1-exp(-10))*x - exp(-10*x);
-}
-
-void problem2(){
+void problem3(){
     // Start measuring time
     auto t1 = chrono::high_resolution_clock::now();
 
-    arma::vec x {arma::linspace<arma::vec>(0.0, 1.0, 100)};
+    arma::vec x {arma::linspace <arma::vec>(0, 1, 100)};
+    arma::vec v {0};
 
+    double dx = x.at(1) - x.at(0);                // difference in x between data points
 
-    string filename = "x_u.txt";
+    double ddvddx = {- 100*exp(- 10*x.at(0))};    // double derivative of v(x)
+    double dvdx = {ddvddx*dx};                    // derivative of v(x)
+
+    for (int i {1}; i < 100; ++i){
+        ddvddx = - 100*exp(- 10*x.at(i));
+        dvdx += ddvddx*dx;
+        v.at(i) = v.at(i-1) + dvdx*dx;
+    }
+
+    string filename = "x_v.txt";
     ofstream ofile;
     ofile.open(filename);
-    ofile << "   x" << "   " << "   u" << endl;
-    for (float i : x){
+    ofile << "x" << "      " << "v" << endl;
+    for (int i {0}; i < 100; ++i){
         ofile << fixed << setprecision(4) 
-              << i << " " << u(i) 
+              << x.at(i) << " " << v.at(i) 
               << endl;
     }
     ofile.close();
