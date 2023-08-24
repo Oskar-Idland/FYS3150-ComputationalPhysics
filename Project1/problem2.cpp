@@ -7,6 +7,9 @@
 
 using namespace std;
 
+double u (double x){
+    return 1 - (1-exp(-10))*x - exp(-10*x);
+}
 
 void problem2(){
     // Start measuring time
@@ -14,13 +17,16 @@ void problem2(){
 
     arma::vec x {arma::linspace<arma::vec>(0, 1, 100)};
 
-    arma::vec u {1 - (1-exp(-10))*x - exp(-10*x)};
 
     std::string filename = "x_u.txt";
     std::ofstream ofile;
     ofile.open(filename);
-    ofile  << x << endl;
-    ofile  << u << endl;
+    ofile << "x" << " " << "u" << endl;
+    for (float i : x){
+        ofile << i << " " << u(i) << endl;
+    }
+    //ofile  << x << endl;
+    //ofile  << u << endl;
     ofile.close();
 
     // Stop measuring time
