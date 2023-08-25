@@ -3,16 +3,20 @@
 #include <armadillo>
 // #include "problem2.h"
 #include "A.h"
+#include "u.h"
+#include "write_to_file.h"
 
 using namespace std;
+using arma::vec;
 int main()
 {
   // Print a message to screen
-  // cout << "Hello, World!\n";
-  // problem2(); 
-  arma::vec x = arma::linspace<arma::vec>(0, 1, 10);
-  arma::vec y = A(x);
-  cout << y << endl;
-  // Return 0 when done
+  cout << "Hello, World!\n";
+  
+  //------Problem 2------
+  vec x {arma::linspace<vec>(0.0, 1.0, 100)};
+  vec v {u(x)};
+  write_to_file(x, v, "x_u.txt");
+  
   return 0;
 }
