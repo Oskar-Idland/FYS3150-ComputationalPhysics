@@ -160,7 +160,7 @@ Our aim is to derive a discretized version of the Poisson equation which lets us
 \end{equation}
 If we let the infinitesimal value $\text{d}x$ rather become a finite, small value $\Delta x$, we'll still be able to calculate the double derivative with good precision, as long as we don't let this value grow too large. Since this is an approximation, a discretized version of \eqref{poisson}, we will use $v(x)$ instead of $u(x)$ in the following procedures to make it clear that this is not an exact solution. The resulting equation becomes
 \begin{equation}
-    \frac{-v(x -\Delta x) + 2v(x) - v(x + \Delta x) }{\Delta x^2} = -100e^{-10x} \label{discretized poisson}
+    \frac{-v(x -\Delta x) + 2v(x) - v(x + \Delta x) }{\Delta x^2} = -100e^{-10x} 
 \end{equation}
 Let's denote the $i^\text{th}$ $x$-value in out set of data points with $x_i$, so that the corresponding $v$-value will be denoted with $v_i$. This implies that at the boundaries we have $x_0 = 0$, $v_0 = 0$, and $x_{N-1} = 1$, $v_{N-1} = 0$, where $N$ are the number of data points. Thus, the final algorithm is
 \begin{equation}
@@ -228,21 +228,92 @@ which multiplied with $\vec{v}$ gives us
 
 We immediately see from \eqref{g_i define} that this gives us the vector $\vec{g}$ containing the $g_i$-values with the same indexes as the corresponding $v_i$-values from $\vec{v}$. Thus, we can indeed rewrite the original discretized equation as the matrix equation
 \begin{equation}
-    \textbf{A}\vec{v} = \vec{g}
+    \textbf{A}\vec{v} = \vec{g} \label{matrix eq}
 \end{equation}
 where $\textbf{A}$ is the tridiagonal matrix with subdiagonal, main diagonal and superdiagonal specified by the signature $(-1, 2, -1)$, just like we wanted to show.
 
 
 \section*{Problem 5}
 \subsection*{Problem 5a}
+We now have the vectors $\vec{v}^*$ and $\vec{x}$, both of length $m$, and the matrix $\text{bf}$ of size $n \times n$. This means that we have $m$ number of data points, and that if we wish to solve \eqref{matrix eq} with the matrix $\textbf{A}$ we can only solve for $n$ of the data points. This is because we never can multiply a matrix with a vector if the matrix has more or less columns than the amount of elements the vector has. Thus, the number $n$ indicates how many of the values in the complete solution we will be able to calculate by solving the equation.
 
 \subsection*{Problem 5b}
+If $n < m$ we will only be able to compute the first $n$ elements in the complete solution $\vec{v}^*$, or alternatively the last $n$ elements if we use the last $n$ elements in $\vec{x}$ to compute the elements in $\vec{g}$.
 
 
 \section*{Problem 6}
 \subsection*{Problem 6a}
+Now we consider the general tridiagonal matrix with subdiagonal, main diagonal and superdiagonal represented by the vectors $\vec{a}$, $\vec{b}$ and $\vec{c}$, respectively. Such a matrix would have the from
+\begin{equation}
+    \textbf{A} = \begin{bmatrix}
+        b_0 & c_0 & 0 & \ldots & 0 \\
+        a_1 & b_1 & c_1 & \ldots & \vdots\\
+        0 & a_2 & b_2 & \ldots & \vdots\\
+        \vdots&\vdots&\vdots&\ddots&\vdots\\
+        0 & \ldots & \ldots & a_{n-1} & b_{n-1} 
+    \end{bmatrix}
+\end{equation}
+should its dimensions be $n \times n$. To study the general algorithm of computing \eqref{matrix eq}, let us look at the case of $n = 3$. If we augment $\vec{g}$ to $\textbf{A}$ so that we get
+\begin{equation}
+    \left[\textbf{A }\vec{g}\right] = \begin{bmatrix}
+        b_0 & c_0 & 0 & g_0 \\
+        a_1 & b_1 & c_1 & g_1 \\
+        0 & a_2 & b_2 & g_2 
+    \end{bmatrix}
+\end{equation}
+we can use the Gaussian elimination method to turn the part of the matrix that is originally just $\textbf{A}$ into the identity matrix. We could either use forward substitution or backwards substitution to go further, so let's try using the former. First, we can multiply row I of the augmented matrix with $a_1/b_0$ and then subtract that row from row II:
+\begin{equation}
+    \begin{bmatrix}
+        b_0 & c_0 & 0 & g_0 \\
+        0 & b_1 - a_1c_0/b_0 & c_1 & g_1 - a_1g_0/b_0 \\
+        0 & a_2 & b_2 & g_2 
+    \end{bmatrix}
+\end{equation}
+To make the calculations more readable, let's introduce the new variables $\overline{b}_1 = b_1 - a_1c_0/b_0$ and $\overline{g}_1 = b_1 - a_1g_0/b_0$. Furthermore, let's now multiply row II with $a_2/\overline{b}_1$ and subtract it from row III so that we're left with
+\begin{equation}
+    \begin{bmatrix}
+        b_0 & c_0 & 0 & g_0 \\
+        0 & \overline{b}_1 & c_1 & \overline{g}_1 \\
+        0 & 0 & b_2 - a_2c_1/\overline{b}_1 & g_2 - a_2\overline{g}_1/\overline{b}_1
+    \end{bmatrix}
+\end{equation}
+Once again we introduce some new variables, $\overline{b}_2 = b_2 - a_2c_1/\overline{b}_1$ and $\overline{g}_2 = g_2 - a_2\overline{g}_1/\overline{b}_1$. Dividing row III with $\overline{b}_2$ we're then left with
+\begin{equation}
+    \begin{bmatrix}
+        b_0 & c_0 & 0 & g_0 \\
+        0 & \overline{b}_1 & c_1 & \overline{g}_1 \\
+        0 & 0 & 1 & v_2
+    \end{bmatrix}
+\end{equation}
+What we're left with on the bottom left is now actually the third value in the solution to the original equation. To find $v_2$ and $v_1$ we work our way upward with similar calculations. First we multiply row III with $c_1$ and subract it from row II, then we divide row II with $b_1$ so that we have $1$ on the diagonal element on row II. Finally we multiply row II with $c_0$ and subtract it from row I, then dividing row I with $b_0$ so that we're left with
+\begin{equation}
+    \begin{bmatrix}
+        1 & 0 & 0 & v_0 \\
+        0 & 1 & 0 & v_1 \\
+        0 & 0 & 1 & v_2
+    \end{bmatrix}
+\end{equation}
+As we can see we're now left with the vector $\vec{v}$ that would satisfy \eqref{matrix eq} in column IV. This process is analogous for any equation where $\textbf{A}$ is an $m \times n$ matrix, $\vec{v}$ is a vector of size $n$ and $\vec{g}$ is a vector of size $m$. A general pseudo code of this process when $\textbf{A}$ is a tridiagonal matrix could look like in Algorithm \ref*{algorithm matrix eq}. Here it is assumed that one would first create a new matrix $\textbf{A}g$ that is a copy of $\textbf{A}$ with $\vec{g}$ concatenated to it.
+
+\begin{algorithm}[H]
+    \caption{Pseudo code for solving $\textbf{A}\vec{v} = \vec{g}$ for $\vec{v}$}\label{algorithm matrix eq}
+    \begin{algorithmic}
+        \For{$i = 0, 1, ..., n-2$} \Comment{get rid of the subdiagonal}
+        \State $newrow = \textbf{A}g_i * \left(\textbf{A}g_{i+1,i} / \textbf{A}g_{i,i} \right);$ \Comment{when there's only the first index we mean the whole row}
+        \State $\textbf{A}g_{i+1} = \textbf{A}g_{i+1} - newrow;$
+        \EndFor
+
+        \For{$i = n-1, n-2, ..., 1$} \Comment{get rid of the superdiagonal}
+        \State $\textbf{A}g_{i} = \textbf{A}g_{i} / \textbf{A}g_{i,i};$
+        \State $\textbf{A}g_{i-1} = \textbf{A}g_{i-1} - \left(\textbf{A}g_{i-1,i}*\textbf{A}g_{i}\right);$
+        \EndFor
+
+        \State $\textbf{A}g_{0} = \textbf{A}g_{0} / \textbf{A}g_{0,0};$ \Comment{fix the first row so that the identity matrix is completed}
+    \end{algorithmic}
+\end{algorithm}
 
 \subsection*{Problem 6b}
+In Algorithm \ref*{algorithm matrix eq} we do 5 FLOPs for each time we loop over the first loop, and we do this $n-1$ times. In the second loop we also do 5 FLOPs $n-1$ times, and lastly we do one FLOP at the very end. This means that the total amount of FLOPs in this algorithm is $10*(n-1) + 1$.
 
 
 \section*{Problem 7}
