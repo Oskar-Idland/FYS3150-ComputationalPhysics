@@ -4,13 +4,10 @@
 #include <string>
 #include <fstream>
 #include "problem2.h"
+#include "u.h"
 
 using namespace std;
 using arma::vec;
-
-double u (double x){
-    return 1 - (1-exp(-10))*x - exp(-10*x);
-}
 
 void problem2(){
     vec x {arma::linspace<vec>(0.0, 1.0, 100)};
