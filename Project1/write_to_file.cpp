@@ -5,9 +5,8 @@
 using arma::vec;
 using namespace std;
 
-void write_to_file(vec v1, vec v2){
+void write_to_file(vec v1, vec v2, string filename){
 
-    string filename = "x_u_test.txt";
     ofstream ofile;
     ofile.open(filename);
     ofile << "   x" << "   " << "   u" << endl;
