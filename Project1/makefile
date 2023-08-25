@@ -1,8 +1,13 @@
 .DEFAULT_GOAL := default
 
-default: compile link run clean hello
+default: compile link run clean done
 	
 all: compile link run clean
+
+main: compile_main link run clean
+
+compile_main: 
+	g++ --std=c++17 -c main.cpp
 
 compile:
 	g++ --std=c++17 -c $(wildcard *.cpp)
@@ -16,5 +21,9 @@ run:
 clean:
 	rm -f *.o 
 
-hello:
-	echo "Done!"
+done:
+	@echo "Done!"
+
+$(MAKECMDGOALS):
+	g++ --std=c++17 -c $(MAKECMDGOALS).cpp
+	@echo "$(MAKECMDGOALS).cpp compiled"
