@@ -1,6 +1,7 @@
 #include <iostream>
 #include <armadillo>
 #include <string>
+#include <iomanip>
 
 using arma::vec;
 using namespace std;
