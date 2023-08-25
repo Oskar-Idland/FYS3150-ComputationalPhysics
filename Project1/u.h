@@ -1,0 +1,1 @@
+double u (double x);
