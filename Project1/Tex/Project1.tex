@@ -6,17 +6,19 @@
 % if you want a single-column, remove reprint
 
 % allows special characters (including æøå)
-\usepackage[utf8]{inputenc}
+\usepackage[mathletters]{ucs}
+\usepackage[utf8x]{inputenc}
 %\usepackage[english]{babel}
 
 %% note that you may need to download some of these packages manually, it depends on your setup.
 %% I recommend downloading TeXMaker, because it includes a large library of the most common packages.
 
 \usepackage{physics,amssymb}  % mathematical symbols (physics imports amsmath)
-\include{amsmath}
+\usepackage{amsmath}
 \usepackage{graphicx}         % include graphics such as plots
 \usepackage{xcolor}           % set colors
 \usepackage{hyperref}         % automagic cross-referencing (this is GODLIKE)
+\usepackage{cleveref}
 \usepackage{listings}         % display code
 \usepackage{subfigure}        % imports a lot of cool and useful figure commands
 \usepackage{float}
@@ -24,10 +26,8 @@
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \usepackage{subfigure}
-\usepackage{tikz}
 \newcommand{\imp}{\hspace{5pt}\Rightarrow\hspace{5pt}}
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
-\usetikzlibrary{quantikz}
 % defines the color of hyperref objects
 % Blending two colors:  blue!80!black  =  80% blue and 20% black
 \hypersetup{ % this is just my personal choice, feel free to change things
@@ -144,11 +144,11 @@ just like we wanted to show.
 
 
 \section*{Problem 2}
-After creating a program that defines a vector of $x$-values between 1 and 100 and evaluates the exact solution $u(x)$ defined as in \eqref{final sol}, we wrote these numbers with four decimals into a text file and plotted them against each other in Python. The resulting plot is shown in FIG. \ref{plot_problem2}.
+After creating a program that defines a vector of $x$-values between 1 and 100 and evaluates the exact solution $u(x)$ defined as in \cref{final sol}, we wrote these numbers with four decimals into a text file and plotted them against each other in Python. The resulting plot is shown in \cref{plot_problem2}.
 \begin{figure}[h!]
     \centering 
     \includegraphics[scale=0.80]{plot_problem2.pdf} %Imports the figure.
-    \caption{Plot of the exact solution of $u(x)$ for $x\in [0,1]$. We used 100 data points for the plot.}
+    \caption{Plot of the exact solution of $u(x)$ for $x ∈ [0,1]$. We used 100 data points for the plot.}
     \label{plot_problem2}
 \end{figure}
 
