@@ -1,3 +1,4 @@
 #pragma once
+#include <armadillo>
 
-double u (double x);
+arma::vec u (arma::vec x);

@@ -10,12 +10,8 @@
 using namespace std;
 using arma::vec;
 
-vec f (vec x){
-    return 1 - (1-exp(-10))*x - exp(-10*x);
-}
-
 void problem2(){
     vec x {arma::linspace<vec>(0.0, 1.0, 100)};
-    vec u {f(x)};
-    write_to_file(x, u, "xu_test.txt");
+    vec v {u(x)};
+    write_to_file(x, v, "x_u.txt");
 }
