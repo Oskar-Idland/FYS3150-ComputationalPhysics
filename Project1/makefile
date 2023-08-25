@@ -1,4 +1,4 @@
-all: compile link run
+all: compile link run clean
 
 compile:
 	g++ --std=c++17 -c $(wildcard *.cpp)
@@ -8,3 +8,6 @@ link:
 
 run:
 	./main
+
+clean:
+	rm -f *.o 
