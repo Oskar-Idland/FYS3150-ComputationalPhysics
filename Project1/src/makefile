@@ -1,10 +1,10 @@
 .DEFAULT_GOAL := default
 
-default: compile link run clean done
+default: compile link run done
 	
 all: compile link run clean
 
-main: compile_main link run clean
+main: compile_main link run
 
 compile_main: 
 	g++ --std=c++17 -c main.cpp
