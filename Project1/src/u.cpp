@@ -1,4 +1,4 @@
-#include "u.h"
+#include "../include/u.h"
 #include <cmath>
 #include <armadillo>
 

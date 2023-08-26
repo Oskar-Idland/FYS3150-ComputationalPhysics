@@ -1,4 +1,4 @@
-#include "f.h"
+#include "../include/f.h"
 #include <cmath>
 #include <armadillo>
 
