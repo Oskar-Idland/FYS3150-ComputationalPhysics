@@ -1,3 +1,4 @@
+#include "../include/write_to_file.h"
 #include <iostream>
 #include <armadillo>
 #include <string>
