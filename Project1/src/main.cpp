@@ -12,7 +12,7 @@ using arma::vec, arma::linspace, arma::mat;
 int main()
 { 
   //------Problem 2------
-  vec x {arma::linspace<vec>(0.0, 1.0, 4)};
+  vec x {arma::linspace<vec>(0.0, 1.0, 3)};
   vec v {u(x)};
   // write_to_file(x, v, "x_u.txt");
 
@@ -29,11 +29,8 @@ int main()
 
   // Defining the augmented matrix Ag = [A | g]
   mat Ag (x.n_elem, x.n_elem + 1, arma::fill::zeros);
-  Ag.submat(0, 0, x.n_elem - 1, x.n_elem - 1) = A;
-  Ag.insert_cols(x.n_elem, g);
-
-
-  cout << Ag << endl;
+  Ag.submat(0, 0, Ag.n_rows - 1, Ag.n_cols - 2) = A;
+  Ag.col(Ag.n_cols - 1) = g;
     
   return 0;
 }
