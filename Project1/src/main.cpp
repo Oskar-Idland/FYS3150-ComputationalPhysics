@@ -2,7 +2,6 @@
 TODO:
 - Write a set amount of digits to file
 - Move the makefile to the root folder and make it able to output .o files to the bin folder
-
 */
 
 #include <iostream>
