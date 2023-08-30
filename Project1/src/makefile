@@ -2,15 +2,15 @@
 
 default: compile link run done
 	
-all: compile link run clean
+all: compile link run clean done
 
-main: compile_main link run
+comp_main: compile_main link run
 
 compile_main: 
 	g++ --std=c++17 -c main.cpp
 
 compile:
-	g++ --std=c++17 -c $(wildcard *.cpp)
+	g++ --std=c++17 -c $(wildcard *.cpp) 
 
 link:
 	g++ --std=c++17 -o main $(wildcard *.o)

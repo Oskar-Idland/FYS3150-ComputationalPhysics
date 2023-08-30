@@ -5,7 +5,7 @@ x = []      # x-values
 u = []      # u-values
 
 # reads x_u.txt file and fills x and u with values
-with open('x_u.txt', 'r') as file:
+with open('../data/x_u.txt', 'r') as file:
     file.readline()
     for line in file:
         x_val, u_val = line.split(' ')
