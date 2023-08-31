@@ -16,7 +16,7 @@ compile:
 	g++ $(CFLAG) -c $(wildcard src/*.cpp) 
 
 link:
-	g++ $(CFLAG) -o src/main $(wildcard bin/*.o) 
+	g++ $(CFLAG) -o src/main $(wildcard objectFiles/*.o) 
 
 run:
 	./src/main
@@ -27,7 +27,7 @@ clean:
 move_objects: move done
 
 move:
-	mv *.o bin
+	mv *.o objectFiles
 
 done:
 	@echo "Done!"
