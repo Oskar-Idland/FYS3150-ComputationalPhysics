@@ -1,7 +1,6 @@
 /*
 TODO:
-- Write a set amount of digits to file
-- Move the makefile to the root folder and make it able to output .o files to the bin folder
+- find out why the find_v function gives us a numerical solution that is flipped
 */
 
 #include <iostream>
@@ -10,25 +9,27 @@ TODO:
 #include <armadillo>
 #include <vector>
 #include "../include/write_to_file.h"
-#include "../include/u.h"
+#include "../include/u_func.h"
 #include "../include/f.h"
 #include "../include/find_v.h"
 using namespace std;
 using arma::vec, arma::linspace, arma::mat;
 
 int main()
-{ 
+{
   //------Problem 2------
     int n {100};
     vec x {arma::linspace<vec>(0.0, 1.0, n)};
-    vec v {u(x)};
-    write_to_file(x, v, "x_u.txt");
+    vec u {u_func(x)};
+    write_to_file(x, u, "x_u.txt");
 
-    //------Problem 7-------
+    //------Problem 7 & 8-------
     // Defining the step size d^2x/dx^2 and the vector g
 
-    vector<int> n_values {10, 100, 1000};
+    vector<int> n_values {10, 100, 1000, 10000};
+    vec v {};
     for (auto n : n_values) {
+        cout << n << endl;
         vec x {arma::linspace<vec>(0.0, 1.0, n)};
         double ddx2 {std::pow(x.at(1) - x.at(0), 2)};
         vec g {- f(x) * ddx2};
@@ -42,9 +43,14 @@ int main()
         // Finding the solution v
         v = find_v(g, A);
 
-        // Writing the result to file
+        // Writing the numerical solution to file
         string filename {"x_v_" + to_string(n) + ".txt"};
         write_to_file(x, v, filename);
+
+        // Writing the exact solution to file
+        string filename_exact {"x_u_" + to_string(n) + ".txt"};
+        u = u_func(x);
+        write_to_file(x, u, filename_exact);
     }
 
   return 0;

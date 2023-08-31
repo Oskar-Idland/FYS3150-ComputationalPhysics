@@ -1,4 +1,4 @@
 #pragma once
 #include <armadillo>
 
-arma::vec u (arma::vec x);
+arma::vec u_func (arma::vec x);
