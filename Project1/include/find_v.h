@@ -1,3 +1,3 @@
 #include <armadillo>
-using arma::vec, arma::mat;
-vec find_v(vec g, mat A);
+using arma::vec;
+vec find_v(vec a, vec b, vec c, vec g);

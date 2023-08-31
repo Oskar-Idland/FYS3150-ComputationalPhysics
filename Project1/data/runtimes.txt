@@ -1,0 +1,8 @@
+FIRST RUN SPECIAL(?) ALGORITHM
+
+Time elapsed for n = 10: 2.166e-06 seconds
+Time elapsed for n = 100: 8.4542e-05 seconds
+Time elapsed for n = 1000: 0.00544938 seconds
+Time elapsed for n = 10000: 0.583778 seconds
+Time elapsed for n = 100000: 57.0949 seconds
+Time elapsed for n = 1000000: 5942.7 seconds
