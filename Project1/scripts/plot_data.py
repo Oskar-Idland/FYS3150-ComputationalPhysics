@@ -1,13 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-data_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data\\')
-
+data_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'data/')).replace('\\', '/')
+print(data_path)
+print("---")
 # reads x_u.txt file and fills x and u with values
 def readFile(filename):
     x = []      # x-values
     y = []      # y-values
-    with open(f'{data_path}{filename}', 'r') as file:
+    with open(f'{data_path}/{filename}', 'r') as file:
         file.readline()
         for line in file:
             x_val, y_val = line.split(' ')
