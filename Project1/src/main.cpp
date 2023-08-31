@@ -1,6 +1,9 @@
 /*
 TODO:
 - find out why the find_v function gives us a numerical solution that is flipped
+- what is the special algorithm and what is the general algorithm?
+- run with n up to 10^6 at least three times with both algorithms for task 10. fill runtime values in runtimes.txt
+- run general algorithm with n = 10^7 once for task 8
 */
 
 #include <iostream>
@@ -24,24 +27,29 @@ int main()
     write_to_file(x, u, "x_u.txt");
 
     //------Problem 7 & 8-------
-    // Defining the step size d^2x/dx^2 and the vector g
-
-    vector<int> n_values {10, 100, 1000, 10000};
+    // Initialize v-vector
     vec v {};
+
+    vector<int> n_values {10, 100, 1000, 10'000, 100'000, 1000'000};
     for (auto n : n_values) {
-        cout << n << endl;
+        // Initial x-vector, dx^2 and g-vector
         vec x {arma::linspace<vec>(0.0, 1.0, n)};
         double ddx2 {std::pow(x.at(1) - x.at(0), 2)};
         vec g {- f(x) * ddx2};
 
-        // Defining the tridiagonal matrix A
-        mat A (x.n_elem, x.n_elem, arma::fill::zeros);
-        A.diag() += 2;
-        A.diag(1) += -1;
-        A.diag(-1) += -1;
+        // Initialize diagonal vectors
+        vec a {n-1, arma::fill::ones};
+        a *= -1;
+        vec b {n, arma::fill::ones};
+        b *= 2;
+        vec c {n-1, arma::fill::ones};
+        c *= -1;
 
-        // Finding the solution v
-        v = find_v(g, A);
+        // Find numerical solution v and take the time
+        auto t1 = chrono::high_resolution_clock::now();
+        v = find_v(a, b, c, g);
+        auto t2 = chrono::high_resolution_clock::now();
+        cout << "Time elapsed for n = " << n << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl;
 
         // Writing the numerical solution to file
         string filename {"x_v_" + to_string(n) + ".txt"};

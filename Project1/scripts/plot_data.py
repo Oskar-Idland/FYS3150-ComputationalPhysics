@@ -18,8 +18,8 @@ def readFile(filename):
     y = np.array(y)
     return x, y     
 
-x, u = readFile('x_u.txt')
-plt.plot(x, u)
+x_exact, u = readFile('x_u.txt')
+plt.plot(x_exact, u)
 plt.xlabel(r'$x$')
 plt.ylabel(r'$u(x)$')
 plt.title(r'Plot of exact solution of $u(x)$ for $x\in[0,1]$')
@@ -27,12 +27,15 @@ plt.savefig(f'{data_path}exactSolution.pdf')
 plt.show()
 
 
-''' plotting exact solution and numerical solution for different values of n '''
-plt.plot(x, u, label='exact solution')
+''' 
+plotting exact solution and numerical solution for different values of n 
+'''
+x_exact, u = readFile(f'x_u_{1000000}.txt')
+plt.plot(x_exact, u, label='exact solution')
 plt.xlabel(r'$x$')
 plt.ylabel(r'$u(x)$')
 
-n_values = [10, 100, 1000, 10000]
+n_values = [10, 100, 1000, 10000, 100000, 1000000]
 for n in n_values:
     x, v = readFile(f'x_v_{n}.txt')
     plt.plot(x, v, label=f'n={n}', linestyle='--')
@@ -43,7 +46,27 @@ plt.savefig(f'{data_path}/exactVSdiscrete.pdf')
 plt.show()
 
 
-''' plotting the logarithm of the absolute error of the numerical solution for different values of n '''
+''' 
+plotting exact solution and numerical solution for different values of n, but now without n = 10
+'''
+plt.plot(x_exact, u, label='exact solution')
+plt.xlabel(r'$x$')
+plt.ylabel(r'$u(x)$')
+
+for n in n_values:
+    if n != 10:
+        x, v = readFile(f'x_v_{n}.txt')
+        plt.plot(x, v, label=f'n={n}', linestyle='--')
+        plt.title(r"Plot of discrete solution $v(x)$ for differnt values of $n$ together" + "\nwith exact solution " + r"$u(x)$")
+
+plt.legend()
+plt.savefig(f'{data_path}/exactVSdiscrete_wo10.pdf')
+plt.show()
+
+
+''' 
+plotting the logarithm of the absolute error of the numerical solution for different values of n 
+'''
 for n in n_values:
     x, u = readFile(f'x_u_{n}.txt')
     x, v = readFile(f'x_v_{n}.txt')
@@ -60,7 +83,9 @@ plt.legend()
 plt.savefig(f'{data_path}/absolute_error.pdf')
 plt.show()
 
-''' plotting the logarithm of the relative error of the numerical solution for different values of n '''
+''' 
+plotting the logarithm of the relative error of the numerical solution for different values of n 
+'''
 for n in n_values:
     x, u = readFile(f'x_u_{n}.txt')
     x, v = readFile(f'x_v_{n}.txt')
