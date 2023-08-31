@@ -9,6 +9,7 @@ TODO:
 #include <iomanip>
 #include <armadillo>
 #include <vector>
+#include <chrono>
 #include "../include/write_to_file.h"
 #include "../include/u.h"
 #include "../include/f.h"
@@ -24,12 +25,12 @@ int main()
     vec v {u(x)};
     write_to_file(x, v, "x_u.txt");
 
-    //------Problem 7-------
-    // Defining the step size d^2x/dx^2 and the vector g
 
-    vector<int> n_values {10, 100, 1000};
+    //------Problem 7-------
+    vector<long long int> n_values {10, 100, 10'000};
     for (auto n : n_values) {
         vec x {arma::linspace<vec>(0.0, 1.0, n)};
+        cout << "n: " << n << endl;
         double ddx2 {std::pow(x.at(1) - x.at(0), 2)};
         vec g {- f(x) * ddx2};
 
@@ -40,7 +41,10 @@ int main()
         A.diag(-1) += -1;
 
         // Finding the solution v
+        auto t1 = chrono::high_resolution_clock::now();
         v = find_v(g, A);
+        auto t2 = chrono::high_resolution_clock::now();
+        cout << "Time elapsed for n = " << n << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl;
 
         // Writing the result to file
         string filename {"x_v_" + to_string(n) + ".txt"};

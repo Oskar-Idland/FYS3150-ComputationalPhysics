@@ -1,16 +1,16 @@
 .DEFAULT_GOAL := default
 CC = g++
-CFLAG = --std=c++17 -Wall
+CFLAG = --std=c++17 -Wall -m64
 
 default: compile move link run done
 
 	
 all: compile move link run clean done
 
-comp_main: compile_main link run
+build_main: compile_main move_main link run
 
 compile_main: 
-	g++ $(CFLAG) -c main.cpp
+	g++ $(CFLAG) -c src/main.cpp
 
 compile:
 	g++ $(CFLAG) -c $(wildcard src/*.cpp) 
@@ -24,7 +24,8 @@ run:
 clean:
 	rm -f *.o 
 
-move_objects: move done
+move_main:
+	mv main.o objectFiles
 
 move:
 	mv *.o objectFiles
