@@ -31,7 +31,7 @@ int main()
     // Initialize v-vector
     vec v {};
 
-    vector<int> n_values {10, 100, 1000, 10'000, 100'000, 1000'000};
+    vector<int> n_values {10, 100, 1000, 10'000, 100'000};
     for (auto n : n_values) {
         // Initial x-vector, dx^2 and g-vector
         vec x {arma::linspace<vec>(0.0, 1.0, n)};
@@ -50,16 +50,16 @@ int main()
         auto t1 = chrono::high_resolution_clock::now();
         v = find_v(a, b, c, g);
         auto t2 = chrono::high_resolution_clock::now();
-        cout << "Time elapsed for n = " << n << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl;
+        cout << "Time elapsed for n = " << n << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl << endl;
 
-        // Writing the numerical solution to file
-        string filename {"x_v_" + to_string(n) + ".txt"};
-        write_to_file(x, v, filename);
+        // // Writing the numerical solution to file
+        // string filename {"x_v_" + to_string(n) + ".txt"};
+        // write_to_file(x, v, filename);
 
-        // Writing the exact solution to file
-        string filename_exact {"x_u_" + to_string(n) + ".txt"};
-        u = u_func(x);
-        write_to_file(x, u, filename_exact);
+        // // Writing the exact solution to file
+        // string filename_exact {"x_u_" + to_string(n) + ".txt"};
+        // u = u_func(x);
+        // write_to_file(x, u, filename_exact);
     }
 
   return 0;
