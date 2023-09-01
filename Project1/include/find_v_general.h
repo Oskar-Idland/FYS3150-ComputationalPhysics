@@ -2,4 +2,4 @@
 #include <vector>
 using std::vector;
 
-vector<double> find_v_general(const vector<double> &a, const vector<double> &b, const vector<double> &c, const vector<double> &g);
+vector<float> find_v_general(const vector<float> &a, const vector<float> &b, const vector<float> &c, const vector<double> &g);

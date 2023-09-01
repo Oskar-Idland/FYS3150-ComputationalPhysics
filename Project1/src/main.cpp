@@ -29,9 +29,9 @@ int main()
 
     //------Problem 7 & 8-------
     // Initialize v-vector
-    vector<double> v {};
+    vector<float> v {};
 
-    vector<int> n_values {10, 100, 1'000, 10'000, 100'000, 200'000};
+    vector<int> n_values {10, 100, 1'000, 10'000, 100'000, 1'000'000};
     for (auto n : n_values) {
         // Initial x-vector, dx^2 and g-vector
         vector<double> x (n, 1.0);
@@ -41,9 +41,9 @@ int main()
         vector<double> g = g_func(x, ddx2); 
 
         // Initialize diagonal vectors
-        vector<double> a (n-1, -1.0);
-        vector<double> b (n, 2.0);
-        vector<double> c (n-1, -1.0);
+        vector<float> a (n-1, -1.0);
+        vector<float> b (n, 2.0);
+        vector<float> c (n-1, -1.0);
         
         // Find numerical solution v and take the time
         auto t1 = chrono::high_resolution_clock::now();

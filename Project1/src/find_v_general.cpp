@@ -6,17 +6,22 @@ using namespace std;
 
 
 
+void fillArray(const vector<float> &v, float *const arr) {
+  for (size_t i {}; i < v.size(); ++i)
+    arr[i] = v.at(i);
+}
+
 void fillArray(const vector<double> &v, double *const arr) {
   for (size_t i {}; i < v.size(); ++i)
     arr[i] = v.at(i);
 }
 
-void fillVector(const double *const arr, vector<double> &v) {
+void fillVector(const float *const arr, vector<float> &v) {
   for (size_t i {}; i < v.size(); ++i)
     v.at(i) = arr[i];
 }
 
-vector<double> find_v_general(const vector<double> &a, const vector<double> &b, const vector<double> &c, const vector<double> &g) {
+vector<float> find_v_general(const vector<float> &a, const vector<float> &b, const vector<float> &c, const vector<double> &g) {
   const int n = g.size();
 
   // const vector<double> *const a_ptr {&a};
@@ -25,10 +30,10 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
   // const vector<double> *const g_ptr {&g};
 
 
-  double a_arr [n] {};
-  double b_arr [n] {};
-  double c_arr [n] {};
-  double g_arr [n] {};
+  float *a_arr = new float [n];
+  float *b_arr = new float [n];
+  float *c_arr = new float [n];
+  double *g_arr = new double [n];
   fillArray(a, a_arr);
   fillArray(b, b_arr);
   fillArray(c, c_arr);
@@ -37,9 +42,8 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
   
 
   // Initialize and fill first row of augmented matrix
-  vector<double> row1 (n+1, 0.0);
-  vector<double> *const row1_ptr {&row1};
-  double row1_arr [n+1] {};
+  vector<float> row1 (n+1, 0.0);
+  float *row1_arr = new float [n+1];
   fillArray(row1, row1_arr);
 
   row1_arr[0] = b_arr[0];
@@ -47,21 +51,18 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
   row1_arr[n] = g_arr[0];
 
   // Initialize second row of augmented matrix
-  vector<double> row2 (n+1, 0.0);
-  vector<double> *const row2_ptr {&row2};
-  double row2_arr [n+1] {};
+  vector<float> row2 (n+1, 0.0);
+  float *row2_arr = new float [n+1];
   fillArray(row2, row2_arr);
 
   // Initialize vector used to store modified diagonal elements
-  vector<double> diag (n, 0.0);
-  vector<double> *const diag_ptr {&diag};
-  double diag_arr [n] {};
+  vector<float> diag (n, 0.0);
+  float *diag_arr = new float [n];
   fillArray(diag, diag_arr);
 
   // Initialize vector with numerical solution
-  vector<double> v (n, 0.0);
-  vector<double> *const v_ptr {&v};
-  double v_arr [n] {};
+  vector<float> v (n, 0.0);
+  float *v_arr = new float [n];
   fillArray(v, v_arr);
   
   // Implementation of the algorithm from Problem 6
@@ -112,5 +113,13 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
     v_arr[i] *= -1.0;
 
   fillVector(v_arr, v);
+  delete [] a_arr;
+  delete [] b_arr;
+  delete [] c_arr;
+  delete [] g_arr;
+  delete [] row1_arr;
+  delete [] row2_arr;
+  delete [] diag_arr;
+  delete [] v_arr;
   return v;
 }
