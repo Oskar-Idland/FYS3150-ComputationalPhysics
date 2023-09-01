@@ -3,8 +3,14 @@ import numpy as np
 import os
 data_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'data/')).replace('\\', '/')
 
-def readFile(filename):
-    ''' reads .txt file and fills x and y with values '''
+def readFile(filename: str) -> tuple[np.ndarray]:
+    ''' 
+    reads .txt file and fills x and y with values\n
+    filename [str]: inlcude .txt extension\n
+
+    # Returns
+    A tuple of two arrays, x and y 
+    '''
     x = []      # x-values
     y = []      # y-values
     with open(f'{data_path}/{filename}', 'r') as file:
