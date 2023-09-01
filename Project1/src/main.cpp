@@ -9,46 +9,45 @@ TODO:
 #include <iostream>
 #include <cmath>
 #include <iomanip>
-#include <armadillo>
 #include <vector>
 #include <chrono>
 #include "../include/write_to_file.h"
 #include "../include/u_func.h"
-#include "../include/f.h"
-#include "../include/find_v.h"
+#include "../include/g_func.h"
+#include "../include/find_v_general.h"
 using namespace std;
-using arma::vec, arma::linspace, arma::mat;
 
 int main()
 {
   //------Problem 2------
     int n {100};
-    vec x {arma::linspace<vec>(0.0, 1.0, n)};
-    vec u {u_func(x)};
+    vector<double> x (n, 1.0);
+    for (size_t i {}; i < n; ++i)
+      x.at(i) *= i*1.0/n;
+    vector<double> u {u_func(x)};
     write_to_file(x, u, "x_u.txt");
 
     //------Problem 7 & 8-------
     // Initialize v-vector
-    vec v {};
+    vector<double> v {};
 
-    vector<int> n_values {10, 100, 1000, 10'000, 100'000, 1000'000};
+    vector<int> n_values {10, 100, 1'000, 10'000, 100'000, 1'000'000};
     for (auto n : n_values) {
         // Initial x-vector, dx^2 and g-vector
-        vec x {arma::linspace<vec>(0.0, 1.0, n)};
-        double ddx2 {std::pow(x.at(1) - x.at(0), 2)};
-        vec g {- f(x) * ddx2};
+        vector<double> x (n, 1.0);
+        for (size_t i {}; i < n; ++i)
+          x.at(i) *= i*1.0/(n-1);
+        double ddx2 {pow(x.at(1) - x.at(0), 2)};
+        vector<double> g = g_func(x, ddx2); 
 
         // Initialize diagonal vectors
-        vec a {n-1, arma::fill::ones};
-        a *= -1;
-        vec b {n, arma::fill::ones};
-        b *= 2;
-        vec c {n-1, arma::fill::ones};
-        c *= -1;
-
+        vector<double> a (n-1, -1.0);
+        vector<double> b (n, 2.0);
+        vector<double> c (n-1, -1.0);
+        
         // Find numerical solution v and take the time
         auto t1 = chrono::high_resolution_clock::now();
-        v = find_v(a, b, c, g);
+        v = find_v_general(a, b, c, g);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "Time elapsed for n = " << n << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl;
 
