@@ -31,20 +31,27 @@ int main()
     // Initialize v-vector
     vec v {};
 
-    vector<int> n_values {10, 100, 1000};
+    vector<int> n_values {10, 100, 1000, 10000, 100000};
     for (auto n : n_values) {
         // Initial x-vector, dx^2 and g-vector
-        vec x {arma::linspace<vec>(0.0, 1.0, n)};
+        std::vector<double> x;
+
+        for (int i = 0; i < n; ++i) {
+            double value = static_cast<double>(i) / (n - 1); // Values between 0.0 and 1.0
+            x.push_back(value);
+        }
+
         double ddx2 {std::pow(x.at(1) - x.at(0), 2)};
-        vec g {- f(x) * ddx2};
+        std::vector<double> g(n);
+        for (int i = 0; i < n; ++i) {
+            g.at(i) = -f(x.at(i)) * ddx2;
+        }
+
 
         // Initialize diagonal vectors
-        vec a {n-1, arma::fill::ones};
-        a *= -1;
-        vec b {n, arma::fill::ones};
-        b *= 2;
-        vec c {n-1, arma::fill::ones};
-        c *= -1;
+        std::vector<double> a(n - 1, -1.0);
+        std::vector<double> b(n, 2.0);
+        std::vector<double> c(n - 1, -1.0);
 
         // Find numerical solution v and take the time
         auto t1 = chrono::high_resolution_clock::now();

@@ -1,7 +1,7 @@
 #include "../include/f.h"
 #include <cmath>
-#include <armadillo>
+#include <iostream>
 
-arma::vec f(arma::vec x) {
+double f(double x) {
     return 100 * exp(-10 * x);
 }

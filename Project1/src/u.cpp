@@ -1,8 +1,8 @@
-<<<<<<<< HEAD:Project1/src/u.cpp
+// <<<<<<<< HEAD:Project1/src/u.cpp
 #include "../include/u.h"
-========
+// ========
 #include "../include/u_func.h"
->>>>>>>> main:Project1/src/u_func.cpp
+// >>>>>>>> main:Project1/src/u_func.cpp
 #include <cmath>
 #include <armadillo>
 
