@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := default
 CC = g++
-CFLAG = --std=c++17 -Wall -m64
+CFLAG = --std=c++17 -Wall -O3 -finline-functions
 
 default: compile move link run done
 
@@ -13,10 +13,10 @@ compile_main:
 	g++ $(CFLAG) -c src/main.cpp
 
 compile:
-	g++ $(CFLAG) -c $(wildcard src/*.cpp) 
+	g++ $(CFLAG) -c $(wildcard src/*.cpp)
 
 link:
-	g++ $(CFLAG) -o src/main $(wildcard objectFiles/*.o) 
+	g++ $(CFLAG) -o src/main $(wildcard objectFiles/*.o)
 
 run:
 	./src/main
