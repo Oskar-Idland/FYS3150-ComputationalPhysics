@@ -1,5 +1,6 @@
 #pragma once
-#include <armadillo>
+#include <vector>
 #include <string>
+using namespace std;
 
-void write_to_file(arma::vec v1, arma::vec v2, std::string filename); 
+void write_to_file(vector<double> v1, vector<double> v2, string filename); 

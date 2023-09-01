@@ -1,4 +1,5 @@
 #pragma once
-#include <armadillo>
+#include <vector>
+using std::vector;
 
-arma::vec u_func (arma::vec x);
+std::vector<double> u_func (std::vector<double> x);

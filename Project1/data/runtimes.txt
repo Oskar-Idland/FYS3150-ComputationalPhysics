@@ -1,8 +1,18 @@
-FIRST RUN SPECIAL(?) ALGORITHM
+FIRST RUN GENERAL ALGORITHM
 
-Time elapsed for n = 10: 2.166e-06 seconds
-Time elapsed for n = 100: 8.4542e-05 seconds
-Time elapsed for n = 1000: 0.00544938 seconds
-Time elapsed for n = 10000: 0.583778 seconds
-Time elapsed for n = 100000: 57.0949 seconds
-Time elapsed for n = 1000000: 5942.7 seconds
+Time elapsed for n = 10: 4.542e-06 seconds
+Time elapsed for n = 100: 2.8333e-05 seconds
+Time elapsed for n = 1000: 0.000371083 seconds
+Time elapsed for n = 10000: 0.0130938 seconds
+Time elapsed for n = 100000: 1.51495 seconds
+Time elapsed for n = 1000000: 253.187 seconds
+
+
+SECOND RUN GENERAL ALGORITHM
+
+Time elapsed for n = 10: 4.333e-06 seconds
+Time elapsed for n = 100: 2.625e-05 seconds
+Time elapsed for n = 1000: 0.0003445 seconds
+Time elapsed for n = 10000: 0.0125251 seconds
+Time elapsed for n = 100000: 1.47906 seconds
+Time elapsed for n = 1000000: 239.153 seconds
