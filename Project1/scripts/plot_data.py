@@ -3,8 +3,14 @@ import numpy as np
 import os
 data_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'data/')).replace('\\', '/')
 
-def readFile(filename):
-    ''' reads .txt file and fills x and y with values '''
+def readFile(filename: str) -> tuple[np.ndarray]:
+    ''' 
+    reads .txt file and fills x and y with values\n
+    filename [str]: inlcude .txt extension\n
+
+    # Returns
+    A tuple of two arrays, x and y 
+    '''
     x = []      # x-values
     y = []      # y-values
     with open(f'{data_path}/{filename}', 'r') as file:
@@ -43,7 +49,9 @@ plt.savefig(f'{data_path}/exactVSdiscrete.pdf')
 plt.show()
 
 
-''' plotting the logarithm of the absolute error of the numerical solution for different values of n '''
+'''
+plotting the logarithm of the absolute error of the numerical solution for different values of n 
+'''
 for n in n_values:
     x, u = readFile(f'x_u_{n}.txt')
     x, v = readFile(f'x_v_{n}.txt')
