@@ -41,7 +41,7 @@ plt.plot(x_exact, u, label='exact solution')
 plt.xlabel(r'$x$')
 plt.ylabel(r'$u(x)$')
 
-n_values = [10, 100, 1000, 10000, 100000, 1000000]
+n_values = [10, 100, 1000, 10000, 100000]
 for n in n_values:
     x, v = readFile(f'x_v_{n}.txt')
     plt.plot(x, v, label=f'n={n}', linestyle='--')

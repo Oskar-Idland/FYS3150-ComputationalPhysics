@@ -2,7 +2,6 @@
 #include <vector>
 #include <chrono>
 #include <omp.h>
-#include <cstring>
 #include "../include/find_v_general.h"
 using namespace std;
 
@@ -31,7 +30,7 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
   vector<double> *diag_ptr = new vector<double> (n, 0.0);
 
   // Initialize vector with numerical solution
-  // Exempted from the heap because it needs to be returned
+  // Exempt from the heap because it needs to be returned
   vector<double> v (n, 0.0);
   vector<double> *v_ptr {&v};
   
@@ -62,7 +61,9 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
     // Replace row i with row i+1
     // This operation is 1'000 X slower than the rest of the loop
     // Should be optimized if possible
-    *row1_ptr = *row2_ptr;
+    delete row1_ptr;
+    row1_ptr = row2_ptr;
+    row2_ptr = new vector<double> (n+1, 0.0);
   }
 
   // Store last modified diagonal element
@@ -84,6 +85,8 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
   // Fixing the sign of the numerical solution
   for (size_t i {}; i < n; ++i) {v_ptr->operator[](i) *= -1.0;}
 
-  delete row1_ptr, row2_ptr, diag_ptr;
+  delete row1_ptr; 
+  delete row2_ptr;
+  delete diag_ptr;
   return *v_ptr;
 }

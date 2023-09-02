@@ -10,6 +10,7 @@ TODO:
 #include <cmath>
 #include <iomanip>
 #include <vector>
+#include <locale>
 #include <chrono>
 #include "../include/write_to_file.h"
 #include "../include/u_func.h"
@@ -32,7 +33,7 @@ int main()
     // Initialize v-vector
     vector<double> v {};
 
-    vector<int> n_values {10, 100, 1000, 10'000, 100'000, 1'000'000, 10'000'000};
+    vector<int> n_values {10, 100};
     for (auto n : n_values) {
         // Initial x-vector, dx^2 and g-vector
         vector<double> x (n, 1.0);
@@ -50,6 +51,7 @@ int main()
         auto t1 = chrono::high_resolution_clock::now();
         v = find_v_general(a, b, c, g);
         auto t2 = chrono::high_resolution_clock::now();
+        std::cout.imbue(std::locale(""));
         cout << "Time elapsed for n = " << n << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl << endl;
 
         // Writing the numerical solution to file
