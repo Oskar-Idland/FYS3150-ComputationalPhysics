@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := default
 CC = g++
-CFLAG = --std=c++17 -Wall -O3 -finline-functions
+CFLAG = --std=c++17 -Wall -O3 -fopenmp
 
 default: compile move link run done
 

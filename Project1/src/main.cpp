@@ -15,8 +15,9 @@ TODO:
 #include "../include/u_func.h"
 #include "../include/g_func.h"
 #include "../include/find_v_general.h"
-using namespace std;
+#include <omp.h>
 
+using namespace std;
 int main()
 {
   //------Problem 2------
@@ -29,9 +30,9 @@ int main()
 
     //------Problem 7 & 8-------
     // Initialize v-vector
-    vector<float> v {};
+    vector<double> v {};
 
-    vector<int> n_values {10, 100, 1'000, 10'000, 100'000, 1'000'000};
+    vector<int> n_values {10, 100, 1000, 10'000, 100'000, 1'000'000, 10'000'000};
     for (auto n : n_values) {
         // Initial x-vector, dx^2 and g-vector
         vector<double> x (n, 1.0);
@@ -41,9 +42,9 @@ int main()
         vector<double> g = g_func(x, ddx2); 
 
         // Initialize diagonal vectors
-        vector<float> a (n-1, -1.0);
-        vector<float> b (n, 2.0);
-        vector<float> c (n-1, -1.0);
+        vector<double> a (n-1, -1.0);
+        vector<double> b (n, 2.0);
+        vector<double> c (n-1, -1.0);
         
         // Find numerical solution v and take the time
         auto t1 = chrono::high_resolution_clock::now();
@@ -51,14 +52,16 @@ int main()
         auto t2 = chrono::high_resolution_clock::now();
         cout << "Time elapsed for n = " << n << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl << endl;
 
-        // // Writing the numerical solution to file
-        // string filename {"x_v_" + to_string(n) + ".txt"};
-        // write_to_file(x, v, filename);
+        // Writing the numerical solution to file
+        cout << "Writing discrete solution to file..." << endl;
+        string filename {"x_v_" + to_string(n) + ".txt"};
+        write_to_file(x, v, filename);
 
-        // // Writing the exact solution to file
-        // string filename_exact {"x_u_" + to_string(n) + ".txt"};
-        // u = u_func(x);
-        // write_to_file(x, u, filename_exact);
+        // Writing the exact solution to file
+        cout << "Writing exact solution to file..." << endl;
+        string filename_exact {"x_u_" + to_string(n) + ".txt"};
+        u = u_func(x);
+        write_to_file(x, u, filename_exact);
     }
 
   return 0;

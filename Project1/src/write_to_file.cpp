@@ -7,15 +7,14 @@
 
 using namespace std;
 
-void write_to_file(vector<double> v1, vector<double> v2, string filename){
+void write_to_file(const vector<double> &v1, const vector<double> &v2, string filename){
 
     ofstream ofile;
     ofile.open("./data/" + filename);
     ofile << "   x" << "   " << "   u" << endl;
+    ofile << fixed << setprecision(10); 
     for (size_t i {0}; i < v1.size(); i++){
-        ofile << fixed << setprecision(10) 
-              << v1.at(i) << " " << v2.at(i) 
-              << endl;
+        ofile << v1.at(i) << " " << v2.at(i) << endl;
     }
     ofile.close();
 }
