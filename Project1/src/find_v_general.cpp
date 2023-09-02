@@ -61,9 +61,7 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
     // Replace row i with row i+1
     // This operation is 1'000 X slower than the rest of the loop
     // Should be optimized if possible
-    delete row1_ptr;
-    row1_ptr = row2_ptr;
-    row2_ptr = new vector<double> (n+1, 0.0);
+    *row1_ptr = *row2_ptr;
   }
 
   // Store last modified diagonal element
