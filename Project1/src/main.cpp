@@ -33,7 +33,7 @@ int main()
     // Initialize v-vector
     vector<double> v {};
 
-    vector<int> n_values {10, 100};
+    vector<int> n_values {10, 100, 1'000, 10'000, 100'000, 1'000'000, 10'000'000};
     for (auto n : n_values) {
         // Initial x-vector, dx^2 and g-vector
         vector<double> x (n, 1.0);
@@ -58,7 +58,6 @@ int main()
         cout << "Writing discrete solution to file..." << endl;
         string filename {"x_v_" + to_string(n) + ".txt"};
         write_to_file(x, v, filename);
-
         // Writing the exact solution to file
         cout << "Writing exact solution to file..." << endl;
         string filename_exact {"x_u_" + to_string(n) + ".txt"};
