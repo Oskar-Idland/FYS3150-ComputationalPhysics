@@ -5,22 +5,11 @@
 #include "../include/find_v_general.h"
 using namespace std;
 
-
-void print_vector(const vector<double> &v) {
-  for (auto i : v) {
-    cout << i << " ";
-  }
-  cout << endl;
-}
+// [Achievemt unlocked🎖️!: Stack Overflow🚽🪠]
 
 vector<double> find_v_general(const vector<double> &a, const vector<double> &b, const vector<double> &c, const vector<double> &g) {
   const int n = g.size();
 
-  const vector<double> *a_ptr {&a};
-  const vector<double> *b_ptr {&b};
-  const vector<double> *c_ptr {&c};
-  const vector<double> *g_ptr {&g};
-  
   // Initialize first and second row of augmented matrix
   double row1_i  {};
   double row1_i1 {};
@@ -39,7 +28,6 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
   vector<double> diag (n, 0.0);
 
   // Initialize vector with numerical solution
-  // Exempt from the heap because it needs to be returned
   vector<double> v (n, 0.0);
 
   
@@ -68,8 +56,6 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
     // Store modified g_i
     v.at(i) = row1_n;
     // Replace row i with row i+1
-    // This operation is 1'000 X slower than the rest of the loop
-    // Should be optimized if possible
 
     row1_i = row2_i1;
     row1_i1 = row2_i2;
