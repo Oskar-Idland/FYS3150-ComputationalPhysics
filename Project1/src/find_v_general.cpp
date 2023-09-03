@@ -32,7 +32,7 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
 
   
   // Implementation of the algorithm from Problem 6
-  for (size_t i = {}; i < (n-1); ++i) { // This loop is 10'000 X slower than the last loop
+  for (size_t i = {}; i < (n-1); ++i) {
 
     // Remove subdiagonal
     // Fill row i+1 of augmented matrix
