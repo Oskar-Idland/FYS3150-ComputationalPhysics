@@ -10,23 +10,24 @@ TODO:
 #include <cmath>
 #include <iomanip>
 #include <vector>
-#include <locale>
 #include <chrono>
 #include "../include/write_to_file.h"
 #include "../include/u_func.h"
 #include "../include/g_func.h"
 #include "../include/find_v_general.h"
 #include "../include/find_v_special.h"
+#include "../include/decimalSeparator.h"
 
 using namespace std;
+
 int main() {
-  //------Problem 2------
+    //------Problem 2------
     int n {100};
     vector<double> x (n, 1.0);
     for (size_t i {}; i < n; ++i)
       x.at(i) *= i*1.0/n;
     vector<double> u {u_func(x)};
-    write_to_file(x, u, "x_u.txt");
+    write_to_bin_file(x, u, "x_u");
 
     //------Problem 7, 8 & 9 -------
     // Initialize v-vector
@@ -50,17 +51,17 @@ int main() {
         auto t1 = chrono::high_resolution_clock::now();
         v = find_v_general(a, b, c, g);
         auto t2 = chrono::high_resolution_clock::now();
-        cout << "Time elapsed for n = " << n << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl << endl;
+        cout << "Time elapsed for n = " << decSeparator(n) << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl;
 
         // Writing the numerical solution to file
         cout << "Writing discrete solution to file..." << endl;
-        string filename {"x_v_" + to_string(n) + ".txt"};
-        write_to_file(x, v, filename);
+        string filename {"x_v_" + to_string(n)};
+        write_to_bin_file(x, v, filename);
         // Writing the exact solution to file
-        cout << "Writing exact solution to file..." << endl;
-        string filename_exact {"x_u_" + to_string(n) + ".txt"};
+        cout << "Writing exact solution to file..." << endl << endl;
+        string filename_exact {"x_u_" + to_string(n)};
         u = u_func(x);
-        write_to_file(x, u, filename_exact);
+        write_to_bin_file(x, u, filename_exact);
 
         // Find numerical solution v using special algorithm and take the time
         t1 = chrono::high_resolution_clock::now();

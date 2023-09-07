@@ -33,6 +33,15 @@ move:
 done:
 	@echo "Done!"
 
+# Create a new project with all the necessary folders and files
+create_project: make_dir make_files
+
+make_dir:
+	mkdir -p data include objectFiles scripts src tex
+
+make_files:
+	touch README.md main.cpp  
+
 # Does not work as other commands can't be executed
 # $(MAKECMDGOALS): 
 # 	g++ $(CFLAG) -c $(MAKECMDGOALS).cpp
