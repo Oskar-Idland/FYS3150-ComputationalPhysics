@@ -1,8 +1,8 @@
 secrets.config
 
 # Text and binary files in Project 1
-./Project1/data/x*.txt
-./Project1/data/x*.bin
+Project1/data/x*.txt
+Project1/data/x_*
 
 # Data
 *.dat
