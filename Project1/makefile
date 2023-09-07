@@ -2,7 +2,7 @@
 CC = g++
 CFLAG = --std=c++17 -Wall -O3
 
-default: compile move link run done
+default: compile move link run clean done
 
 	
 all: compile move link run clean done
@@ -22,13 +22,15 @@ run:
 	./src/main
 
 clean:
-	rm -f *.o 
+	rm -f objectFiles/*.o 
 
 move_main:
 	mv main.o objectFiles
 
 move:
 	mv *.o objectFiles
+
+delete_bin:
 
 done:
 	@echo "Done!"
