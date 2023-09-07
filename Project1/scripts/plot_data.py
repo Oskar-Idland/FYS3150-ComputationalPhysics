@@ -41,7 +41,7 @@ plt.plot(x_exact, u, label='exact solution')
 plt.xlabel(r'$x$')
 plt.ylabel(r'$u(x)$')
 
-n_values = [10, 100, 1000, 10_000]
+n_values = [10, 100, 1000, 10000, 100000, 1000000, 10000000]
 for n in n_values:
     x, v = readFile(f'x_v_{n}.txt')
     plt.plot(x, v, label=f'n={n}', linestyle='--')
@@ -107,3 +107,38 @@ for n in n_values:
 plt.legend()
 plt.savefig(f'{data_path}/relative_error.pdf')
 plt.show()
+
+
+runtime_general = [[5e-07, 3.33e-07, 4.58e-07, 4.58e-07, 5e-07],
+                   [2.625e-06, 2.292e-06, 2.333e-06, 2.708e-06, 2.625e-06],
+                   [2.6708e-05, 2.3417e-05, 2.3167e-05, 2.6792e-05, 2.6583e-05],
+                   [0.000264875, 0.000229875, 0.000226917, 0.000300041, 0.000265166],
+                   [0.00263437, 0.0022945, 0.00229908, 0.00263437, 0.00261896],
+                   [0.0292246, 0.0241653, 0.0270453, 0.0292246, 0.0286908]]
+
+runtime_special = [[2.91e-07, 4.16e-07, 4.17e-07, 3.33e-07, 4.59e-07],
+                   [1.958e-06, 2.292e-06, 2.75e-06, 3.125e-06, 2.667e-06],
+                   [2.0542e-05, 2.3125e-05, 2.7625e-05, 2.5834e-05, 2.5959e-05],
+                   [0.000200916, 0.000223125, 0.00029775, 0.000297125, 0.0002545],
+                   [0.00201287, 0.0022645, 0.00296925, 0.00256213, 0.00254967],
+                   [0.0208238, 0.0229941, 0.0271131, 0.0302535, 0.0265217]]
+
+idx = np.arange(6)
+labels = ['1st', '2nd', '3rd', '4th', '5th', 'Mean']
+steps = [10, 100, 1000, r'$10^4$', r'$10^5$', r'$10^6$']
+for i in range(6):
+    general = runtime_general[i]
+    general.append(np.mean(runtime_general[i]))
+    special = runtime_special[i]
+    special.append(np.mean(runtime_special[i]))
+
+    plt.bar(idx - 0.33, general, color = '#ffaed7', width = 0.33, label = 'General')
+    plt.bar(idx, special, color = 'skyblue', width = 0.33, label = 'Special')
+    plt.legend()
+    plt.xticks(idx - 0.33/2, labels = labels)
+    plt.xlabel('Run')
+    plt.ylabel('Duration [s]')
+    plt.title(f'Duration of 5 runs with {steps[i]} steps using the general algorithm\nversus the special algorithm, along with the mean')
+    plt.tight_layout()
+    plt.savefig(f'{data_path}/runtime_comparison_{10**(i+1)}.pdf')
+    plt.show()

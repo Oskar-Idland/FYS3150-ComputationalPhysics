@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
-#include <omp.h>
 #include "../include/find_v_general.h"
 using namespace std;
 
@@ -77,9 +76,9 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
   // Impose boundary conditions
   v.at(0) = 0.0;
   v.at(n-1) = 0.0;
-
+  
   // Fixing the sign of the numerical solution
-  for (auto v_i : v) {v_i *= -1.0;}
+  for (auto &v_i : v) {v_i *= -1.0;}
 
   return v;
 }

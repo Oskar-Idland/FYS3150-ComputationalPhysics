@@ -16,11 +16,10 @@ TODO:
 #include "../include/u_func.h"
 #include "../include/g_func.h"
 #include "../include/find_v_general.h"
-#include <omp.h>
+#include "../include/find_v_special.h"
 
 using namespace std;
-int main()
-{
+int main() {
   //------Problem 2------
     int n {100};
     vector<double> x (n, 1.0);
@@ -29,7 +28,7 @@ int main()
     vector<double> u {u_func(x)};
     write_to_file(x, u, "x_u.txt");
 
-    //------Problem 7 & 8-------
+    //------Problem 7, 8 & 9 -------
     // Initialize v-vector
     vector<double> v {};
 
@@ -47,11 +46,10 @@ int main()
         vector<double> b (n, 2.0);
         vector<double> c (n-1, -1.0);
         
-        // Find numerical solution v and take the time
+        // Find numerical solution v using general algorithm and take the time
         auto t1 = chrono::high_resolution_clock::now();
         v = find_v_general(a, b, c, g);
         auto t2 = chrono::high_resolution_clock::now();
-        std::cout.imbue(std::locale(""));
         cout << "Time elapsed for n = " << n << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl << endl;
 
         // Writing the numerical solution to file
@@ -63,6 +61,13 @@ int main()
         string filename_exact {"x_u_" + to_string(n) + ".txt"};
         u = u_func(x);
         write_to_file(x, u, filename_exact);
+
+        // Find numerical solution v using special algorithm and take the time
+        t1 = chrono::high_resolution_clock::now();
+        v = find_v_special(g);
+        t2 = chrono::high_resolution_clock::now();
+        cout << "Time elapsed for n = " << n << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl << endl;
+        
     }
 
   return 0;
