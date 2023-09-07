@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := default
 CC = g++
-CFLAG = --std=c++17 -Wall -O3 -fopenmp
+CFLAG = --std=c++17 -Wall -O3
 
 default: compile move link run done
 
@@ -32,6 +32,15 @@ move:
 
 done:
 	@echo "Done!"
+
+# Create a new project with all the necessary folders and files
+create_project: make_dir make_files
+
+make_dir:
+	mkdir -p data include objectFiles scripts src tex
+
+make_files:
+	touch README.md main.cpp  
 
 # Does not work as other commands can't be executed
 # $(MAKECMDGOALS): 

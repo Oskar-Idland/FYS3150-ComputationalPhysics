@@ -3,10 +3,10 @@ import numpy as np
 import os
 data_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'data/')).replace('\\', '/')
 
-def readFile(filename: str) -> tuple[np.ndarray]:
+def readFile(filename: str) -> tuple[np.ndarray, np.ndarray]:
     ''' 
     reads .txt file and fills x and y with values\n
-    filename [str]: inlcude .txt extension\n
+    filename [str]: DO NOT inlcude .txt extension\n
 
     # Returns
     A tuple of two arrays, x and y 
@@ -24,7 +24,24 @@ def readFile(filename: str) -> tuple[np.ndarray]:
     y = np.array(y)
     return x, y     
 
-x_exact, u = readFile('x_u.txt')
+def readBinFile(filename: str) -> tuple[np.ndarray, np.ndarray]:
+    ''' 
+    # Input
+    reads .bin file and fills x and y with values\n
+    filename [str]: DO NOT include .bin extension\n
+
+    # Returns
+    A tuple of two arrays, x and y 
+    '''
+    data = np.fromfile(f'{data_path}/{filename}')
+    data = data.reshape((-1, 2))
+    x = data[:, 0]
+    y = data[:, 1]
+    return x, y
+
+x_exact, u = readBinFile('x_u')
+print(u[1])
+print(np.finfo(np.longdouble).eps)
 plt.plot(x_exact, u)
 plt.xlabel(r'$x$')
 plt.ylabel(r'$u(x)$')
@@ -36,14 +53,14 @@ plt.show()
 ''' 
 plotting exact solution and numerical solution for different values of n 
 '''
-x_exact, u = readFile(f'x_u_{1000000}.txt')
+x_exact, u = readBinFile(f'x_u_{1000000}')
 plt.plot(x_exact, u, label='exact solution')
 plt.xlabel(r'$x$')
 plt.ylabel(r'$u(x)$')
 
 n_values = [10, 100, 1000, 10_000]
 for n in n_values:
-    x, v = readFile(f'x_v_{n}.txt')
+    x, v = readBinFile(f'x_v_{n}')
     plt.plot(x, v, label=f'n={n}', linestyle='--')
     plt.title(r"Plot of discrete solution $v(x)$ for differnt values of $n$ together" + "\nwith exact solution " + r"$u(x)$")
 
@@ -61,7 +78,7 @@ plt.ylabel(r'$u(x)$')
 
 for n in n_values:
     if n != 10:
-        x, v = readFile(f'x_v_{n}.txt')
+        x, v = readBinFile(f'x_v_{n}')
         plt.plot(x, v, label=f'n={n}', linestyle='--')
         plt.title(r"Plot of discrete solution $v(x)$ for differnt values of $n$ together" + "\nwith exact solution " + r"$u(x)$")
 
@@ -74,8 +91,8 @@ plt.show()
 plotting the logarithm of the absolute error of the numerical solution for different values of n 
 '''
 for n in n_values:
-    x, u = readFile(f'x_u_{n}.txt')
-    x, v = readFile(f'x_v_{n}.txt')
+    x, u = readBinFile(f'x_u_{n}.txt')
+    x, v = readBinFile(f'x_v_{n}.txt')
     ''' removing end points'''
     x = x[1:-1]
     u = u[1:-1]
@@ -93,8 +110,8 @@ plt.show()
 plotting the logarithm of the relative error of the numerical solution for different values of n 
 '''
 for n in n_values:
-    x, u = readFile(f'x_u_{n}.txt')
-    x, v = readFile(f'x_v_{n}.txt')
+    x, u = readBinFile(f'x_u_{n}.txt')
+    x, v = readBinFile(f'x_v_{n}.txt')
     ''' removing end points'''
     x = x[1:-1]
     u = u[1:-1]
