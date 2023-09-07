@@ -5,7 +5,7 @@
 #include "../include/find_v_general.h"
 using namespace std;
 
-// [Achievemt unlocked🎖️!: Stack Overflow🚽🪠]
+// [@Oskar-Idland Achievemt unlocked🎖️!: Stack Overflow🚽🪠]
 
 vector<double> find_v_general(const vector<double> &a, const vector<double> &b, const vector<double> &c, const vector<double> &g) {
   const int n = g.size();
