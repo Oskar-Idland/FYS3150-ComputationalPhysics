@@ -43,10 +43,10 @@ vector<double> find_v_general(const vector<double> &a, const vector<double> &b, 
     
     row2_n = g.at(i+1);
    
-    // g_i+1 -= g_i * (a_i / b_i)
+    // b_i+1 -= c_i * (a_i / b_i)
     row2_i1 -= row1_i1 * (row2_i / row1_i);
     
-    // a_i -= b_i * (a_i / b_i)
+    // g_i+1 -= g_i * (a_i / b_i)
     row2_n -= row1_n * (row2_i / row1_i);
     row2_i = 0.0;
 
