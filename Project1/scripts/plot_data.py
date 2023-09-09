@@ -29,7 +29,7 @@ plt.plot(x_exact, u)
 plt.xlabel(r'$x$')
 plt.ylabel(r'$u(x)$')
 plt.title(r'Plot of exact solution of $u(x)$ for $x\in[0,1]$')
-plt.savefig(f'{data_path}exactSolution.pdf')
+plt.savefig(f'{data_path}/exactSolution.pdf')
 plt.show()
 
 
@@ -83,8 +83,8 @@ for n in n_values:
     abs_err = np.log10(np.abs(u - v))
 
     plt.plot(x, abs_err, label=f'n={n}')
-    plt.title(r"Plot of the logarithm of the absolute error $|(u_i - v_i)|$ of the discrete" + "\n" + r"solution $v(x)$ for differnt values of $n$")
 
+plt.title(r"Plot of the logarithm of the absolute error $|(u_i - v_i)|$ of the discrete" + "\n" + r"solution $v(x)$ for differnt values of $n$")
 plt.legend()
 plt.savefig(f'{data_path}/absolute_error.pdf')
 plt.show()
@@ -99,11 +99,14 @@ for n in n_values:
     x = x[1:-1]
     u = u[1:-1]
     v = v[1:-1]
-    rel_err = np.log10(np.abs((u - v)/u))
+    ϵ = np.abs((u - v)/u)
+    print(np.max(ϵ))
+    print(x[np.argmax(ϵ)])
+    rel_err = np.log10(ϵ)
 
     plt.plot(x, rel_err, label=f'n={n}')
-    plt.title(r"Plot of the logarithm of the relative error $|(u_i - v_i)/u_i|$ of the discrete" + "\n" + r"solution $v(x)$ for differnt values of $n$")
 
+plt.title(r"Plot of the logarithm of the relative error $|(u_i - v_i)/u_i|$ of the discrete" + "\n" + r"solution $v(x)$ for differnt values of $n$")
 plt.legend()
 plt.savefig(f'{data_path}/relative_error.pdf')
 plt.show()
