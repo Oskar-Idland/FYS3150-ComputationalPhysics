@@ -319,32 +319,19 @@ In \cref{algorithm matrix eq} we do two FLOPs to three nonzero matrix elements i
 
 \section*{Problem 7}
 \subsection*{Problem 7a}
-We wrote a function implementing the general algorithm which is found in the file \verb|find_v_general.cpp|. In \verb|main.cpp| we call on this function for $n_\text{steps} = 10, 100, 1000, 10^4, 10^5, 10^6, 10^7$. We also call on the function \verb|write_to_file| for each of these values of $n_\text{steps}$ to store the solutions $\vec{v}$ and the corresponding vectors $\vec{x}$ to binary files.
+When implementing \cref{algorithm matrix eq} in C++, we quickly stumbled into a memory issue. To run this algorithm for $n=10^7$ we would need to create a matrix of size $10^7 \times 10^7$, which would require $10^7 \times 10^7 \times 8 = 8 × 10^{14}$ bytes of memory when using doubles. This is equal to 800 TB, which is more than the amount of memory on the computers we're using. Thus, we needed to find a way to solve this problem without creating such a large matrix. Looking at the algorithim, we notice we only needed to calculate two rows at a time. Therefore, we could use the armadillo library to store the two rows as vectors. This allowed us to solve the problem, but this approach was still quite slow. We calculated a runtime of approximately 8-16 hours with this approach. Finally we noticed that we don't need to store the entire rows, only the nonzero elements in two rows at a time. This pattern is easy to see in the case of $n=5$ as seen in \cref{fig: vector_example}. In the first loop, we only use index 1, 2 and $n$ in row 1, and index 2, 3, $n$ in row 2. In the second loop, row 1 replaces row 2 and the indexes of interest in row 2 increase by one. To copy over $n$ elements is computationally heavy and a foor-loop in of itself. By noticing the fact that there are only three indices of interest, we can store just 3 values instead of $n$. This reduces the time complexity from $O(n^2)$ to $O(n)$ and increased computation speed by a factor of 125'000-250'000.
+
+The final function we wrote which implemented the general algorithm is found in the file \verb|find_v_general.cpp|. In \verb|main.cpp| we call on this function for $n_\text{steps} = 10, 100, 1000, 10^4, 10^5, 10^6, 10^7$. We also call on the function \verb|write_to_file| for each of these values of $n_\text{steps}$ to store the solutions $\vec{v}$ and the corresponding vectors $\vec{x}$ to binary files. We chose to write the data to binary files to save time.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.5]{vector_example.png}
+    \caption{Screenshot of terminal output showing calculations for $n = 5$}
+    \label{fig: vector_example}
+\end{figure}
 
 \subsection*{Problem 7b}
 After running our program for all the seven values of $n_\text{steps}$ we used our script \verb|plot_data.py| to plot the numerical solutions along with the exact solution $u(x)$. The resulting plot is shown in \cref{plot7b}. In \cref{plot7b w/o 10} we plotted the numerical solutions without the one corresponding to $n_\text{steps} = 10$, as this one deviated so much that it was difficult to decipher the precision of the other solutions.
-
-\section*{Problem 8}
-\subsection*{Problem 8a}
-In \cref*{abs err} we see a plot of the logarithm of the absolute errors 
-\begin{equation}
-    \log_{10}(\Delta_i) = \log_{10}(|u_i - v_i|)
-\end{equation}
-of the numerical solutions as functions of $x_i$ for the seven different values of $n_\text{step}$.
-
-\begin{figure}[h!]
-    \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactVSdiscrete.pdf} %Imports the figure.
-    \caption{Plot of the numerical solutions $v(x)$ for seven different values of $n_\text{step}$ (dashed lines) along with the exact solution $u(x)$ (solid line).}
-    \label{plot7b}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactVSdiscrete_wo10.pdf} %Imports the figure.
-    \caption{Plot of the numerical solutions $v(x)$ (dashed lines) without $n_\text{step} = 10$ along with the exact solution $u(x)$ (solid line).}
-    \label{plot7b w/o 10}
-\end{figure}
 
 \begin{algorithm}[H]
     \caption{Optimalized pseudo code for solving $\textbf{A}\vec{v} = \vec{g}$ for $\vec{v}$}\label{algorithm fixed}
@@ -393,6 +380,31 @@ of the numerical solutions as functions of $x_i$ for the seven different values 
         
     \end{algorithmic}
 \end{algorithm}
+
+\subsection*{Problem 7b}
+After running our program for all the seven values of $n_\text{steps}$ we used our script \verb|plot_data.py| to plot the numerical solutions along with the exact solution $u(x)$. The resulting plot is shown in \cref{plot7b}. In \cref{plot7b w/o 10} we plotted the numerical solutions without the one corresponding to $n_\text{steps} = 10$, as this one deviated so much that it was difficult to decipher the precision of the other solutions.
+
+\begin{figure}[h!]
+    \centering 
+    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactVSdiscrete.pdf} %Imports the figure.
+    \caption{Plot of the numerical solutions $v(x)$ for seven different values of $n_\text{step}$ (dashed lines) along with the exact solution $u(x)$ (solid line).}
+    \label{plot7b}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering 
+    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactVSdiscrete_wo10.pdf} %Imports the figure.
+    \caption{Plot of the numerical solutions $v(x)$ (dashed lines) without $n_\text{step} = 10$ along with the exact solution $u(x)$ (solid line).}
+    \label{plot7b w/o 10}
+\end{figure}
+
+\section*{Problem 8}
+\subsection*{Problem 8a}
+In \cref*{abs err} we see a plot of the logarithm of the absolute errors 
+\begin{equation}
+    \log_{10}(\Delta_i) = \log_{10}(|u_i - v_i|)
+\end{equation}
+of the numerical solutions as functions of $x_i$ for the seven different values of $n_\text{step}$.
 
 \begin{figure}[h!]
     \centering 
@@ -451,6 +463,7 @@ See \verb|find_v_special.cpp|.
 Figures \ref{timing 1}, \ref{timing 2}, \ref{timing 3}, \ref{timing 4}, \ref{timing 5} and \ref{timing 6} show comparisons of fice runtimes with the general algorithm and the special algorithm for $n_\text{steps} = 10, 100, 1000, 10^4, 10^5, 10^6$ respectively. The diagrams also compare the mean of the five runtimes in each case. As expected, considering there is an equal amount of FLOPs in them both, there are minor differences between the two algorithms, and these may very well be random. It does however seem like the general algorithm tends to be somewhat slower than the special algorithm, which may have something to do with the fact that the general algorithm picks out elements from the vectors $\vec{a}$, $\vec{b}$ and $\vec{c}$ before performing computations.
 
 \begin{figure}[h!]
+    \vspace*{20pt}
     \centering 
     \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_10.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 10$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
