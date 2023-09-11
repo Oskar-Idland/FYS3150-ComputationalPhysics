@@ -116,7 +116,7 @@
 
 \maketitle 
     
-\href{https://github.com/Oskar-Idland/FYS3150-ComputationalPhysic}{GitHub Repository}
+\href{https://github.com/Oskar-Idland/FYS3150-ComputationalPhysic}{https://github.com/Oskar-Idland/FYS3150-ComputationalPhysic}%{GitHub Repository}
     
 \section*{Problem 1}
 We have the one-dimensional Poisson equation
@@ -147,7 +147,7 @@ just like we wanted to show.
 We created a function \verb|u_func| defined in \verb|u_func.cpp| that uses \cref{final sol} to return the exact solution for a given vector $\vec{x}$. In \verb|main.cpp| we defined a vector of $n=100$  $x$-values between 0 and 1 and called on \verb|u_func| with this vector to get a vector $\vec{u}$ containing the exact solutions for each of the $x$-values. We then wrote these values with ten decimals into a binary file by passing the two vectors to our function defined in \verb|write_to_file.cpp|, and used our script \verb|plot_data.py| to plot them against each other, which is shown in \cref{plot_problem2}.
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{../data/exactSolution.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactSolution.pdf} %Imports the figure.
     \caption{Plot of the exact solution of $u(x)$ for $x ∈ [0,1]$. We used $n =100$ data points for the plot.}
     \label{plot_problem2}
 \end{figure}
@@ -386,14 +386,14 @@ After running our program for all the seven values of $n_\text{steps}$ we used o
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactVSdiscrete.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactVSdiscrete.pdf} %Imports the figure.
     \caption{Plot of the numerical solutions $v(x)$ for seven different values of $n_\text{step}$ (dashed lines) along with the exact solution $u(x)$ (solid line).}
     \label{plot7b}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactVSdiscrete_wo10.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactVSdiscrete_wo10.pdf} %Imports the figure.
     \caption{Plot of the numerical solutions $v(x)$ (dashed lines) without $n_\text{step} = 10$ along with the exact solution $u(x)$ (solid line).}
     \label{plot7b w/o 10}
 \end{figure}
@@ -408,7 +408,7 @@ of the numerical solutions as functions of $x_i$ for the seven different values 
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/absolute_error.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/absolute_error.pdf} %Imports the figure.
     \caption{Plot of the logarithm of the numerical solutions' absolute errors $\log_{10}(\Delta_i)$ $v(x)$ for the seven different values of $n_\text{step}$.}
     \label{abs err}
 \end{figure}
@@ -422,7 +422,7 @@ of the numerical solutions as functions of $x_i$ for the seven different values 
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/relative_error.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/relative_error.pdf} %Imports the figure.
     \caption{Plot of the logarithm of the numerical solutions' relative errors $\log_{10}(\epsilon_i)$ $v(x)$ for the seven different values of $n_\text{step}$.}
     \label{rel err}
 \end{figure}
@@ -465,42 +465,42 @@ Figures \ref{timing 1}, \ref{timing 2}, \ref{timing 3}, \ref{timing 4}, \ref{tim
 \begin{figure}[h!]
     \vspace*{20pt}
     \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_10.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_10.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 10$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 1}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_100.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_100.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 100$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 2}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_1000.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_1000.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 1000$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 3}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_10000.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_10000.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 10^4$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 4}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_100000.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_100000.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 10^5$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 5}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/paljettrosa/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_1000000.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_1000000.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 10^6$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 6}
 \end{figure}
