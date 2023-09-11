@@ -8,6 +8,11 @@
 % allows special characters (including æøå)
 \usepackage[mathletters]{ucs}
 \usepackage[utf8x]{inputenc}
+\usepackage{tcolorbox}
+\newtcbox{\inlinecode}{on line, boxrule=0pt, boxsep=0pt, top=2pt, left=2pt, bottom=2pt, right=2pt, colback=gray!15, colframe=white, fontupper={\ttfamily \footnotesize}}
+
+
+
 %\usepackage[english]{babel}
 
 %% note that you may need to download some of these packages manually, it depends on your setup.
@@ -120,10 +125,10 @@
     
 \section*{Problem 1}
 We have the one-dimensional Poisson equation
-\begin{equation}
-    -\frac{\text{d}^2 u}{\text{d}x^2} = 100e^{-10x}, \hspace{15pt} x \in [0,1] \label{poisson}
+\begin{equation}\label{eq: poisson}
+    -\frac{\text{d}^2 u}{\text{d}x^2} = 100e^{-10x}, \hspace{15pt} x \in [0,1] 
 \end{equation}
-where the right hand side of the equation is the source term $f(x)$. We have the boundary conditions $u(0) = 0$ and $u(1) = 0$. Integrating both sides of \cref{poisson} with respect to $x$ twice we get
+where the right hand side of the equation is the source term $f(x)$. We have the boundary conditions $u(0) = 0$ and $u(1) = 0$. Integrating both sides of \cref{eq: poisson} with respect to $x$ twice we get
 \begin{align*}
     \frac{\text{d}^2 u}{\text{d}x^2} &= -100e^{-10x} \\
     \iint \left( \frac{\text{d}^2 u}{\text{d}x^2} \right) \text{d}x^2 &= -100\iint e^{-10x} \text{d}x^2 \\
@@ -147,7 +152,7 @@ just like we wanted to show.
 We created a function \verb|u_func| defined in \verb|u_func.cpp| that uses \cref{final sol} to return the exact solution for a given vector $\vec{x}$. In \verb|main.cpp| we defined a vector of $n=100$  $x$-values between 0 and 1 and called on \verb|u_func| with this vector to get a vector $\vec{u}$ containing the exact solutions for each of the $x$-values. We then wrote these values with ten decimals into a binary file by passing the two vectors to our function defined in \verb|write_to_file.cpp|, and used our script \verb|plot_data.py| to plot them against each other, which is shown in \cref{plot_problem2}.
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactSolution.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{../data/exactSolution.pdf} %Imports the figure.
     \caption{Plot of the exact solution of $u(x)$ for $x ∈ [0,1]$. We used $n =100$ data points for the plot.}
     \label{plot_problem2}
 \end{figure}
@@ -158,7 +163,7 @@ Our aim is to derive a discretized version of the Poisson equation which lets us
 \begin{equation}
     \frac{\text{d}^2u}{\text{d}u^2} = \lim_{\text{d}x\to 0}\frac{-u(x -\text{d}x) + 2u(x) - u(x + \text{d}x)}{\text{d}x^2} 
 \end{equation}
-If we let the infinitesimal value $\text{d}x$ rather become a finite, small value $\Delta x$, we'll still be able to calculate the double derivative with good precision, as long as we don't let this value grow too large. Since this is an approximation, a discretized version of \cref{poisson}, we will use $v(x)$ instead of $u(x)$ in the following procedures to make it clear that this is not an exact solution. The resulting equation becomes
+If we let the infinitesimal value $\text{d}x$ rather become a finite, small value $\Delta x$, we'll still be able to calculate the double derivative with good precision, as long as we don't let this value grow too large. Since this is an approximation, a discretized version of \cref{eq: poisson}, we will use $v(x)$ instead of $u(x)$ in the following procedures to make it clear that this is not an exact solution. The resulting equation becomes
 \begin{equation}
     \frac{-v(x -\Delta x) + 2v(x) - v(x + \Delta x) }{\Delta x^2} = -100e^{-10x} 
 \end{equation}
@@ -319,7 +324,11 @@ In \cref{algorithm matrix eq} we do two FLOPs to three nonzero matrix elements i
 
 \section*{Problem 7}
 \subsection*{Problem 7a}
-When implementing \cref{algorithm matrix eq} in C++, we quickly stumbled into a memory issue. To run this algorithm for $n=10^7$ we would need to create a matrix of size $10^7 \times 10^7$, which would require $10^7 \times 10^7 \times 8 = 8 × 10^{14}$ bytes of memory when using doubles. This is equal to 800 TB, which is more than the amount of memory on the computers we're using. Thus, we needed to find a way to solve this problem without creating such a large matrix. Looking at the algorithim, we notice we only needed to calculate two rows at a time. Therefore, we could use the armadillo library to store the two rows as vectors. This allowed us to solve the problem, but this approach was still quite slow. We calculated a runtime of approximately 8-16 hours with this approach. Finally we noticed that we don't need to store the entire rows, only the nonzero elements in two rows at a time. This pattern is easy to see in the case of $n=5$ as seen in \cref{fig: vector_example}. In the first loop, we only use index 1, 2 and $n$ in row 1, and index 2, 3, $n$ in row 2. In the second loop, row 1 replaces row 2 and the indexes of interest in row 2 increase by one. To copy over $n$ elements is computationally heavy and a foor-loop in of itself. By noticing the fact that there are only three indices of interest, we can store just 3 values instead of $n$. This reduces the time complexity from $O(n^2)$ to $O(n)$ and increased computation speed by a factor of 125'000-250'000.
+When implementing \cref{algorithm matrix eq} in C++, we quickly stumbled into a memory issue. To run this algorithm for $n=10^7$ we would need to create a matrix of size $10^7 \times 10^7$, which would require $10^7 \times 10^7 \times 8 = 8 × 10^{14}$ bytes of memory when using doubles. This is equal to 800 TB, which is more than the amount of memory on the computers we're using. Thus, we needed to find a way to solve this problem without creating such a large matrix. 
+
+Looking at the algorithim, we notice we only needed to calculate two rows at a time. Therefore, we could use the \href{https://arma.sourceforge.net/docs.html}{armadillo library} to store the two rows as vectors. This allowed us to solve the problem, but this approach was still quite slow. We calculated a runtime of approximately 8-16 hours with this approach. 
+
+Finally we noticed that we don't need to store the entire rows, only the nonzero elements in two rows at a time. This pattern is easy to see in the case of $n=5$ as seen in \cref{fig: vector_example}. In the first loop, we only use index 1, 2 and $n$ in row 1, and index 2, 3, $n$ in row 2. In the second loop, row 1 replaces row 2 and the indexes of interest in row 2 increase by one. To copy over $n$ elements is computationally heavy and a foor-loop in of itself (making the algoritm $O(n^2)$). By noticing the fact that there are only three indices of interest, we can store just 3 values instead of $n$. This reduces the time complexity from $O(n^2)$ to $O(n)$ and increased computation speed by a factor of 125'000-250'000.
 
 The final function we wrote which implemented the general algorithm is found in the file \verb|find_v_general.cpp|. In \verb|main.cpp| we call on this function for $n_\text{steps} = 10, 100, 1000, 10^4, 10^5, 10^6, 10^7$. We also call on the function \verb|write_to_file| for each of these values of $n_\text{steps}$ to store the solutions $\vec{v}$ and the corresponding vectors $\vec{x}$ to binary files. We chose to write the data to binary files to save time.
 
@@ -386,14 +395,14 @@ After running our program for all the seven values of $n_\text{steps}$ we used o
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactVSdiscrete.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{../data/exactVSdiscrete.pdf} %Imports the figure.
     \caption{Plot of the numerical solutions $v(x)$ for seven different values of $n_\text{step}$ (dashed lines) along with the exact solution $u(x)$ (solid line).}
     \label{plot7b}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/exactVSdiscrete_wo10.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{../data/exactVSdiscrete_wo10.pdf} %Imports the figure.
     \caption{Plot of the numerical solutions $v(x)$ (dashed lines) without $n_\text{step} = 10$ along with the exact solution $u(x)$ (solid line).}
     \label{plot7b w/o 10}
 \end{figure}
@@ -408,7 +417,7 @@ of the numerical solutions as functions of $x_i$ for the seven different values 
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/absolute_error.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{../data/absolute_error.pdf} %Imports the figure.
     \caption{Plot of the logarithm of the numerical solutions' absolute errors $\log_{10}(\Delta_i)$ $v(x)$ for the seven different values of $n_\text{step}$.}
     \label{abs err}
 \end{figure}
@@ -422,7 +431,7 @@ of the numerical solutions as functions of $x_i$ for the seven different values 
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/relative_error.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{../data/relative_error.pdf} %Imports the figure.
     \caption{Plot of the logarithm of the numerical solutions' relative errors $\log_{10}(\epsilon_i)$ $v(x)$ for the seven different values of $n_\text{step}$.}
     \label{rel err}
 \end{figure}
@@ -465,42 +474,42 @@ Figures \ref{timing 1}, \ref{timing 2}, \ref{timing 3}, \ref{timing 4}, \ref{tim
 \begin{figure}[h!]
     \vspace*{20pt}
     \centering 
-    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_10.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{../data/runtime_comparison_10.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 10$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 1}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_100.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{../data/runtime_comparison_100.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 100$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 2}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_1000.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{../data/runtime_comparison_1000.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 1000$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 3}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_10000.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{../data/runtime_comparison_10000.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 10^4$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 4}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_100000.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{../data/runtime_comparison_100000.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 10^5$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 5}
 \end{figure}
 
 \begin{figure}[h!]
     \centering 
-    \includegraphics[scale=0.80]{/Users/hishem/Documents/GitHub/FYS3150-ComputationalPhysics/Project1/data/runtime_comparison_1000000.pdf} %Imports the figure.
+    \includegraphics[scale=0.80]{../data/runtime_comparison_1000000.pdf} %Imports the figure.
     \caption{Comparison of runtimes for $n_\text{step} = 10^6$ from five seperate runs as well as the mean of these using the general algorithm (pink) and special algorithm (blue).}
     \label{timing 6}
 \end{figure}

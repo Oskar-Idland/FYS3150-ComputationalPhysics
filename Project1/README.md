@@ -4,6 +4,7 @@
 - [Downloading the Project](#downloading-the-project)
 - [Build and Run](#build-and-run)
 - [Project Structure](#project-structure)
+- [Authors](#authors)
 
 
 ## Downloading the Project
@@ -37,12 +38,19 @@ g++ --std=c++17 -Wall -O3 -o src/main objectFiles/decimalSeparator.o objectFiles
 ```
 
 ## Project Structure
-The code is divided into multiple folders
-- data: All data and graphs produced
-- include: Header files (.h)
-- objectFiles: Object files (.o)
-- scripts: Scripts to plot data (python)
-- src: Source files (.cpp)
-- tex: LaTeX files (.tex)
+- This project was created to solve the problems found in [Project 1](https://anderkve.github.io/FYS3150/book/projects/project1.html). 
+- Every problem is solved in `main.cpp`, but the code is divided into multiple files to make it more readable. The code is divided into the following files and folders:
+    - data: All data and graphs produced
+    - include: Header files (.h)
+    - objectFiles: Object files (.o)
+    - scripts: Scripts to plot data (python)
+    - src: Source files (.cpp)
+    - tex: LaTeX files (.tex)
+    - makefile: Makefile to compile the code, placed in the root folder
 
-makefile: Makefile to compile the code, placed in the root folder
+
+## Authors
+- Oskar Idland [@Oskar-Idland](https://github.com/Oskar-Idland)
+- Håvard Skåli [@paljettrosa](https://github.com/paljettrosa)
+- Hishem [@hishemok](https://github.com/hishemok)
+- Andrew [@ASYquan](https://github.com/ASYquan)
