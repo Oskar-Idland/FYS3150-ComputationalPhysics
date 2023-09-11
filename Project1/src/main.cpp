@@ -21,6 +21,7 @@ using namespace std;
 int main()
 {
     //------Problem 2------
+    auto t1 = chrono::high_resolution_clock::now();
     int n {100};
     vector<double> x (n, 1.0);
     for (size_t i {}; i < n; ++i)
@@ -47,10 +48,10 @@ int main()
         vector<double> c (n-1, -1.0);
         
         // Find numerical solution v and take the time
-        auto t1 = chrono::high_resolution_clock::now();
+        auto t3 = chrono::high_resolution_clock::now();
         v = find_v_general(a, b, c, g);
-        auto t2 = chrono::high_resolution_clock::now();
-        cout << "Time elapsed for n = " << decSeparator(n) << ": " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl;
+        auto t4 = chrono::high_resolution_clock::now();
+        cout << "Time elapsed for n = " << decSeparator(n) << ": " << chrono::duration<double>(t4 - t3).count() << " seconds" << endl;
 
         // Writing the numerical solution to file
         cout << "Writing discrete solution to file..." << endl;
@@ -63,5 +64,7 @@ int main()
         write_to_bin_file(x, u, filename_exact);
 
     }
+    auto t2 = chrono::high_resolution_clock::now();
+    cout << "Total time elapsed: " << chrono::duration<double>(t2 - t1).count() << " seconds" << endl;
   return 0;
 }
