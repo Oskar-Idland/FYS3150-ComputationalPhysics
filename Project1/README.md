@@ -16,8 +16,14 @@ git clone https://github.com/Oskar-Idland/FYS3150-ComputationalPhysics.git
 
 ## Build and Run
 ### Building with make
-To build the project, run `make` in the root folder
+To build the project, run `make` in the Project 1 root folder
+```bash	
+cd Project1
+```
 
+```bash
+make
+```
 
 ### Building Without make in the Terminal
 1. Compile
